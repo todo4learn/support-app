@@ -75,53 +75,53 @@ class RouteServiceProvider extends ServiceProvider
         });
 
 
-        RateLimiter::for('refresh', function(Request $request){
-            if(session()->has('redcaptcha')){
-            
-            }else{
+        // RateLimiter::for('refresh', function(Request $request){
+        //     if(session()->has('redcaptcha')){
 
-                $mysql_link = @mysqli_connect(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'), env('DB_DATABASE'), env('DB_PORT'));
-                if (mysqli_connect_errno() || !DB::getSchemaBuilder()->hasTable('settings') ) {
-                    return;
-                }
-                if(setting('DOS_Enable') == 'on'){
-                    $key = 'login.'.$request->ip();
-                    $maxe = Setting::where('key' ,'IPMAXATTEMPT')->first();
-                    $max = $maxe->value; // attempt
-                    // $max = 100; // attempt
-                    
-                    $ipsec = Setting::where('key' ,'IPSECONDS')->first();
-                    $decay = $ipsec->value; // seconds
-                    // $decay = 100; // seconds
+        //     }else{
 
-                    if(RateLimiter::tooManyAttempts($key,$max)){
-                        $ipexists = IPLIST::where('ip', $request->ip())->exists();
+        //         $mysql_link = @mysqli_connect(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'), env('DB_DATABASE'), env('DB_PORT'));
+        //         if (mysqli_connect_errno() || !DB::getSchemaBuilder()->hasTable('settings') ) {
+        //             return;
+        //         }
+        //         if(setting('DOS_Enable') == 'on'){
+        //             $key = 'login.'.$request->ip();
+        //             $maxe = Setting::where('key' ,'IPMAXATTEMPT')->first();
+        //             $max = $maxe->value; // attempt
+        //             // $max = 100; // attempt
 
-                        if($ipexists){
-                            $ipupdate = IPLIST::where('ip', $request->ip())->first();
-                            $ipdata = GeoIP::getLocation($request->getClientIp());
+        //             $ipsec = Setting::where('key' ,'IPSECONDS')->first();
+        //             $decay = $ipsec->value; // seconds
+        //             // $decay = 100; // seconds
 
-                            $ipupdate->types = 'Locked';
-                            $ipupdate->update();
-                        }else{
-                            $ipdata = GeoIP::getLocation($request->getClientIp());
-                            IPLIST::create([
-                                'ip' => $ipdata->ip,
-                                'country' => $ipdata->iso_code,
-                                'entrytype' => 'Auto',
-                                'types' => 'Locked'
+        //             if(RateLimiter::tooManyAttempts($key,$max)){
+        //                 $ipexists = IPLIST::where('ip', $request->ip())->exists();
 
-                            ]);
-                        }
-                    
-                        abort(429); 
-                    } 
-                    else {
-                        RateLimiter::hit($key,$decay);
-                        
-                    }
-                }
-            }
-        });
+        //                 if($ipexists){
+        //                     $ipupdate = IPLIST::where('ip', $request->ip())->first();
+        //                     $ipdata = GeoIP::getLocation($request->getClientIp());
+
+        //                     $ipupdate->types = 'Locked';
+        //                     $ipupdate->update();
+        //                 }else{
+        //                     $ipdata = GeoIP::getLocation($request->getClientIp());
+        //                     IPLIST::create([
+        //                         'ip' => $ipdata->ip,
+        //                         'country' => $ipdata->iso_code,
+        //                         'entrytype' => 'Auto',
+        //                         'types' => 'Locked'
+
+        //                     ]);
+        //                 }
+
+        //                 abort(429);
+        //             }
+        //             else {
+        //                 RateLimiter::hit($key,$decay);
+
+        //             }
+        //         }
+        //     }
+        // });
     }
 }
