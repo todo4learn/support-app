@@ -26,13 +26,13 @@ use App\Http\Controllers\User\Ticket\CommentsController;
 |
 */
 
-include('installer.php');
+// include('installer.php');
 
 
 Route::middleware(ProtectAgainstSpam::class)->group(function() {
 
 
-    Route::middleware(['admincountryblock','throttle:refresh', 'ipblockunblock'])->group(function () {
+    Route::middleware(['throttle:refresh'])->group(function () {
 
 
         Route::group(['namespace' => 'Admin', 'prefix'	 => 'admin'], function () {
@@ -274,7 +274,7 @@ Route::middleware(ProtectAgainstSpam::class)->group(function() {
 
     });
 
-    Route::middleware(['countrylistbub', 'throttle:refresh', 'ipblockunblock'])->group(function () {
+    Route::middleware(['throttle:refresh'])->group(function () {
 
 
         Route::group(['namespace' => 'User', 'prefix' => 'customer'], function(){
