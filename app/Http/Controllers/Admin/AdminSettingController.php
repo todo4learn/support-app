@@ -53,7 +53,7 @@ class AdminSettingController extends Controller
      */
 
     public function socialloginupdate(SocialAuthRequest $request) {
-        
+
         $socialAuth = SocialAuthSetting::first();
 
         $socialAuth->twitter_client_id = $request->twitter_client_id;
@@ -116,7 +116,7 @@ class AdminSettingController extends Controller
         $data['GOOGLE_RECAPTCHA_SECRET'] = $request->googlerecaptchasecret;
 
         $this->updateSettings($data);
-        
+
         return back()->with('success',trans('langconvert.functions.updatecommon'));
     }
 
@@ -131,7 +131,7 @@ class AdminSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function email(){
 
         $this->authorize('Email Setting Access');
@@ -149,14 +149,14 @@ class AdminSettingController extends Controller
 
 
         return view('admin.email.email')->with($data);
-        
+
     }
     /**
      * Ticket Settings.
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function ticketsetting()
     {
         $this->authorize('Ticket Setting Access');
@@ -175,7 +175,7 @@ class AdminSettingController extends Controller
 
 
         return view('admin.generalsetting.ticketsetting')->with($data);
-        
+
     }
 
         /**
@@ -187,7 +187,7 @@ class AdminSettingController extends Controller
     {
         $request->validate([
             'ticketid' => 'required',
-            
+
         ]);
         if($request->userreopentime){
             $request->validate([
@@ -214,7 +214,7 @@ class AdminSettingController extends Controller
                 'autonotificationdeletedays' => 'required|numeric|gte:0'
             ]);
         }
-        
+
         $data['USER_REOPEN_ISSUE']  =  $request->has('USER_REOPEN_ISSUE') ? 'yes' : 'no';
         $data['USER_REOPEN_TIME']  =  $request->input('userreopentime') ;
         $data['AUTO_CLOSE_TICKET']  =  $request->has('AUTO_CLOSE_TICKET') ? 'yes' : 'no';
@@ -232,7 +232,7 @@ class AdminSettingController extends Controller
         $data['GUEST_FILE_UPLOAD_ENABLE']  =  $request->has('GUEST_FILE_UPLOAD_ENABLE') ? 'yes' : 'no';
 
         $this->updateSettings($data);
-        
+
         return back()->with('success', trans('langconvert.functions.updatecommon'));
     }
     /**
@@ -240,12 +240,12 @@ class AdminSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function emailStore(Request $request)
     {
-       
+
         if($request->ajax()){
-            
+
             if($request->mail_driver == 'sendmail'){
                 $request->validate([
                     'mail_from_name' => 'required|max:10000',
@@ -263,9 +263,9 @@ class AdminSettingController extends Controller
                     'mail_from_address' => 'required|max:10000'
                 ]);
             }
-            
+
             $data = $request->only(['mail_driver', 'mail_host', 'mail_port', 'mail_from_address', 'mail_from_name', 'mail_encryption', 'mail_username', 'mail_password']);
-            
+
             $this->updateSettings($data);
             return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
         }
@@ -285,14 +285,14 @@ class AdminSettingController extends Controller
             Mail::send('admin.email.template', [ 'emailBody' => "This is a test email sent by system" ], function($message) use ($email) {
             $message->to($email)->subject('Test Email');
             });
-        
+
         return back()->with('success', trans('langconvert.functions.testemailsend'));
-            
-        
+
+
         }catch(\Exception $e){
-          return back()->with('error',  trans('langconvert.functions.testemailsendno'));   
+          return back()->with('error',  trans('langconvert.functions.testemailsendno'));
         }
-        
+
     }
 
 
@@ -356,14 +356,14 @@ class AdminSettingController extends Controller
         ]);
 
         $template = EmailTemplate::find($id)->update($request->only(['subject', 'body']));
-        
+
         return redirect('/admin/emailtemplates')->with('success', trans('langconvert.functions.updatecommon'));
-        
+
     }
 
     public function registerpopup(Request $request)
     {
-         
+
           $data['REGISTER_POPUP'] = $request->status;
           $data['REGISTER_DISABLE'] = $request->registerdisable;
           $data['GOOGLEFONT_DISABLE'] = $request->googledisable;
@@ -376,7 +376,7 @@ class AdminSettingController extends Controller
           $data['purchasecode_on'] = $request->purchasecodeon;
           $data['defaultlogin_on'] = $request->defaultloginon;
           $this->updateSettings($data);
-          
+
 
     return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
 
@@ -389,91 +389,91 @@ class AdminSettingController extends Controller
             'fileuploadmax' => 'required|numeric|gt:0',
             'fileuploadtypes' => 'required'
         ]);
-        
+
         $data['MAX_FILE_UPLOAD']  =  $request->input('maxfileupload') ;
         $data['FILE_UPLOAD_MAX']  =  $request->input('fileuploadmax') ;
         $data['FILE_UPLOAD_TYPES']  =  $request->input('fileuploadtypes') ;
 
         $this->updateSettings($data);
-        
+
         return back()->with('success', __('messages.langconvert.functions.updatecommon'));
     }
 
 
     public function knowledge(Request $request)
     {
-        
+
         $data['KNOWLEDGE_ENABLE']  =  $request->KNOWLEDGE_ENABLE;
         $data['FAQ_ENABLE']  =  $request->FAQ_ENABLE;
         $data['CONTACT_ENABLE']  =  $request->CONTACT_ENABLE;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
 
     public function profileuser(Request $request)
     {
-        
+
         $data['PROFILE_USER_ENABLE']  =  $request->PROFILE_USER_ENABLE;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
     public function profileagent(Request $request)
     {
-        
+
         $data['PROFILE_AGENT_ENABLE']  =  $request->PROFILE_AGENT_ENABLE;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
 
     public function captchacontact(Request $request)
     {
-        
+
         $data['RECAPTCH_ENABLE_CONTACT']  =  $request->RECAPTCH_ENABLE_CONTACT;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
 
     public function captcharegister(Request $request)
     {
-        
+
         $data['RECAPTCH_ENABLE_REGISTER']  =  $request->RECAPTCH_ENABLE_REGISTER;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
     public function captchalogin(Request $request)
     {
-        
+
         $data['RECAPTCH_ENABLE_LOGIN']  =  $request->RECAPTCH_ENABLE_LOGIN;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
 
     public function captchaguest(Request $request)
     {
-        
+
         $data['RECAPTCH_ENABLE_GUEST']  =  $request->RECAPTCH_ENABLE_GUEST;
-        
+
         $this->updateSettings($data);
 
-        
+
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
     }
 
@@ -494,7 +494,7 @@ class AdminSettingController extends Controller
         $data = $request->only(['theme_color', 'theme_color_dark']);
 
         $this->updateSettings($data);
-        
+
         return back()->with('success',  trans('langconvert.functions.updatecommon'));
     }
 
@@ -513,7 +513,7 @@ class AdminSettingController extends Controller
 
         $post = Pages::all();
         $data['page'] = $post;
-          
+
 
         return view('admin.generalsetting.googleanalytics')->with($data);
 
@@ -534,7 +534,7 @@ class AdminSettingController extends Controller
         $data['GOOGLE_ANALYTICS'] = $request->input(['GOOGLE_ANALYTICS']);
 
         $this->updateSettings($data);
-        
+
         return back()->with('success', trans('langconvert.functions.updatecommon'));
     }
 
@@ -543,11 +543,11 @@ class AdminSettingController extends Controller
         $data = $request->only(['default_lang']);
 
         $this->updateSettings($data);
-        
+
         return back()->with('success', trans('langconvert.functions.updatecommon'));
 
     }
-    
+
     public function seturl(Request $request)
     {
 
@@ -558,9 +558,9 @@ class AdminSettingController extends Controller
         $data = $request->only(['terms_url']);
 
         $this->updateSettings($data);
-        
+
         return back()->with('success',  trans('langconvert.functions.updatecommon'));
-      
+
     }
 
     public function datetimeformatstore(Request $request)
@@ -570,7 +570,7 @@ class AdminSettingController extends Controller
         $data['time_format'] = $request->time_format;
 
         $this->updateSettings($data);
-        
+
         return back()->with('success', trans('langconvert.functions.updatecommon'));
 
     }

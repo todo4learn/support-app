@@ -16,12 +16,12 @@ class Checkinstallation
      */
     public function handle(Request $request, Closure $next)
     {
-        $installedpath = storage_path('installed');
+        // $installedpath = storage_path('installed');
 
-        if(!file_exists($installedpath)){
-            $request->session()->flush();
-            return redirect()->route('SprukoAppInstaller::welcome');
-        }
+        // if(!file_exists($installedpath)){
+        //     $request->session()->flush();
+        //     return redirect()->route('SprukoAppInstaller::welcome');
+        // }
 
         return $next($request);
     }

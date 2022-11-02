@@ -19,53 +19,54 @@ class ApiCheckingMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(setting('envato_purchasecode') == null){
-			if(Auth::check() && Auth::user()){
+        // if(setting('envato_purchasecode') == null){
+		// 	if(Auth::check() && Auth::user()){
 
-				return redirect()->route('admin.licenseinfo');
-			}else{
-				return $next($request);
-			}
-	    }else{
-	        // Check purchase code
-	        $purchaseCodeData = $this->purchaseCodeChecker(setting('envato_purchasecode'));
-	        if ($purchaseCodeData->valid == false) {
-	            return redirect('/apifailed');
-	        }
-	        if ($purchaseCodeData->valid == true) {
-				if($purchaseCodeData->item_id != config('installer.requirements.itemId')){
-                
-					return redirect('/apifailed');
-				}
-				if($purchaseCodeData->item_id == config('installer.requirements.itemId')){
-					$checkapis = $this->purchaseCodecheckingapi(setting('envato_purchasecode'));
-					// Format object data
-					$result = json_decode($checkapis);
-					if($result != null){
-						$url1 = parse_url($result->url);
-						$url2 = parse_url(url('/'));
-						if($url1['host'] == $url2['host']){
-							if($result->status == 1){
-								return $next($request);
-							}else{
-								return redirect('/apifailed');
-							}
-						}
-						if($result->url != url('/')){
-							return redirect('/apifailed');
-						}
-					}
-					if($result == null){
-						if(Auth::check() && Auth::user()){
+		// 		return redirect()->route('admin.licenseinfo');
+		// 	}else{
+		// 		return $next($request);
+		// 	}
+	    // }else{
+	    //     // Check purchase code
+	    //     $purchaseCodeData = $this->purchaseCodeChecker(setting('envato_purchasecode'));
+	    //     if ($purchaseCodeData->valid == false) {
+	    //         return redirect('/apifailed');
+	    //     }
+	    //     if ($purchaseCodeData->valid == true) {
+		// 		if($purchaseCodeData->item_id != config('installer.requirements.itemId')){
 
-							return redirect()->route('admin.licenseinfo');
-						}else{
-							return $next($request);
-						}
-					}
+		// 			return redirect('/apifailed');
+		// 		}
+		// 		if($purchaseCodeData->item_id == config('installer.requirements.itemId')){
+		// 			$checkapis = $this->purchaseCodecheckingapi(setting('envato_purchasecode'));
+		// 			// Format object data
+		// 			$result = json_decode($checkapis);
+		// 			if($result != null){
+		// 				$url1 = parse_url($result->url);
+		// 				$url2 = parse_url(url('/'));
+		// 				if($url1['host'] == $url2['host']){
+		// 					if($result->status == 1){
+		// 						return $next($request);
+		// 					}else{
+		// 						return redirect('/apifailed');
+		// 					}
+		// 				}
+		// 				if($result->url != url('/')){
+		// 					return redirect('/apifailed');
+		// 				}
+		// 			}
+		// 			if($result == null){
+		// 				if(Auth::check() && Auth::user()){
 
-	        	}
-	        }
-	    }
+		// 					return redirect()->route('admin.licenseinfo');
+		// 				}else{
+		// 					return $next($request);
+		// 				}
+		// 			}
+
+	    //     	}
+	    //     }
+	    // }
+        return $next($request);
     }
 }

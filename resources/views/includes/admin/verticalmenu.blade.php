@@ -169,7 +169,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                                
+
                                 @endcan
                                 @can('Knowledge Access')
 
@@ -179,7 +179,7 @@
                                         <span class="side-menu__label">{{trans('langconvert.menu.knowledge')}}</span><i class="angle fa fa-angle-right"></i>
                                     </a>
                                     <ul class="slide-menu custom-ul">
-                                        
+
                                         @can('Article Access')
 
                                         <li><a href="{{url('/admin/article')}}" class="slide-item">{{trans('langconvert.adminmenu.articles')}}</a></li>
@@ -275,7 +275,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                @can('Envato Access')
+                                {{-- @can('Envato Access')
                                 @if(setting('ENVATO_ON') == 'on')
 
                                 <li class="slide">
@@ -320,9 +320,9 @@
 
                                     </ul>
                                 </li>
-                                @endcan
+                                @endcan --}}
                                 @endif
-                                
+
                                 @can('Groups Access')
 
                                 <li class="slide">

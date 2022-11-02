@@ -11,7 +11,7 @@ use Illuminate\Database\Schema\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
-    
+
     /**
      * Register any application services.
      *
@@ -19,7 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -37,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
                 return true;
 
             $client = new Client();
-    
+
             $response = $client->post(
                 'https://www.google.com/recaptcha/api/siteverify',
                 ['form_params'=>
@@ -47,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                      ]
                 ]
             );
-        
+
             $body = json_decode((string)$response->getBody());
 
             return $body->success;

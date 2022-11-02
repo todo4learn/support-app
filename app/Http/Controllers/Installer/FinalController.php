@@ -18,7 +18,7 @@ class FinalController extends Controller
 {
 
     use ApichecktraitHelper;
-    
+
     public function logindetails()
     {
         $olduser = User::where('id', '1')->exists();
@@ -44,34 +44,34 @@ class FinalController extends Controller
         ]);
 
         // Check purchase code
-        $purchaseCodeData = $this->purchaseCodeChecker($request->input('envato_purchasecode'));
+        // $purchaseCodeData = $this->purchaseCodeChecker($request->input('envato_purchasecode'));
 
-        if ($purchaseCodeData->valid == false) {
-            
-            $this->validate($request, [
-                'envato_purchasecode' => 'required'
-            ]);
-            if ($purchaseCodeData->message != '') {
-                $messages = ['purchase_code_valid.required' => 'The :attribute field is required. ERROR: <strong>' . $purchaseCodeData->message . '</strong>'];
-            }
-            return redirect()->back()->with('error', $purchaseCodeData->message);
-        }
-        if($purchaseCodeData->valid == true)
-        {
+        // if ($purchaseCodeData->valid == false) {
 
-            if($purchaseCodeData->item_id != config('installer.requirements.itemId')){
-                
-                return redirect()->back()->with('error', 'Invalid purchase code. Incorrect data format.');
-            }
-            if($purchaseCodeData->item_id == config('installer.requirements.itemId')){
-                $purchaseCodeDatas = $this->purchaseCodecreate($request->envato_purchasecode, $request->app_firstname,$request->app_lastname, $request->app_email, url('/'),
-                $purchaseCodeData->license, $purchaseCodeData->buyer, $purchaseCodeData->author);
+        //     $this->validate($request, [
+        //         'envato_purchasecode' => 'required'
+        //     ]);
+        //     if ($purchaseCodeData->message != '') {
+        //         $messages = ['purchase_code_valid.required' => 'The :attribute field is required. ERROR: <strong>' . $purchaseCodeData->message . '</strong>'];
+        //     }
+        //     return redirect()->back()->with('error', $purchaseCodeData->message);
+        // }
+        // if($purchaseCodeData->valid == true)
+        // {
 
-                if($purchaseCodeDatas->App == 'old'){
-                    return redirect()->back()->with('error', $purchaseCodeDatas->message);
-                
-                }
-                if($purchaseCodeDatas->App == 'New'){
+        //     if($purchaseCodeData->item_id != config('installer.requirements.itemId')){
+
+        //         return redirect()->back()->with('error', 'Invalid purchase code. Incorrect data format.');
+        //     }
+        //     if($purchaseCodeData->item_id == config('installer.requirements.itemId')){
+        //         $purchaseCodeDatas = $this->purchaseCodecreate($request->envato_purchasecode, $request->app_firstname,$request->app_lastname, $request->app_email, url('/'),
+        //         $purchaseCodeData->license, $purchaseCodeData->buyer, $purchaseCodeData->author);
+
+        //         if($purchaseCodeDatas->App == 'old'){
+        //             return redirect()->back()->with('error', $purchaseCodeDatas->message);
+
+        //         }
+        //         if($purchaseCodeDatas->App == 'New'){
 
                     $geolocation = GeoIP::getLocation(request()->getClientIp());
                     $user = User::create([
@@ -101,13 +101,13 @@ class FinalController extends Controller
                     request()->session()->put('password', request()->app_password);
 
                     return redirect()->route('SprukoAppInstaller::final')->with('success','Application Installed Succesfully');
-                }
-                if($purchaseCodeDatas->App == 'update'){
+                // }
+                // if($purchaseCodeDatas->App == 'update'){
 
-                    return redirect()->back()->with('success',$purchaseCodeDatas->message);
-                }
-            }
-        }
+                //     return redirect()->back()->with('success',$purchaseCodeDatas->message);
+                // }
+        //     }
+        // }
     }
 
     public function index(InstallFileCreate $fileManager, FinalManager $finalInstall)
