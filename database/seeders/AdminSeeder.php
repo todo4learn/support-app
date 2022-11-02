@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
-        
+
 
         // create permissions
 		$this->createPermissions();
@@ -32,25 +32,25 @@ class AdminSeeder extends Seeder
 
 		// assign roles and permissions
 		$this->assignPermissions();
-		
-        // $user = User::create(['firstname' => 'Admin',
-        //     'lastname' => '1',
-        //     'email' => 'admin@admin.com',
-        //     'verified' => '1',
-        //     'status' => '1',
-        //     'image' => null,
-        //     'password' =>Hash::make('admin1234'),
-        //     'country' => '',
-        //     'timezone' => 'UTC',
-        //     'remember_token' => '',
-        // ]);
-        // $users = User::find($user->id);
-        // $users->name = $user->firstname.' '.$user->lastname;
-        // $users->update();
 
-        // $usersetting = new usersettings();
-        // $usersetting->users_id = $users->id;
-        // $usersetting->save();
+        $user = User::create(['firstname' => 'Admin',
+            'lastname' => '1',
+            'email' => 'admin@admin.com',
+            'verified' => '1',
+            'status' => '1',
+            'image' => null,
+            'password' => Hash::make('secret'),
+            'country' => '',
+            'timezone' => 'UTC',
+            'remember_token' => '',
+        ]);
+        $users = User::find($user->id);
+        $users->name = $user->firstname.' '.$user->lastname;
+        $users->update();
+
+        $usersetting = new usersettings();
+        $usersetting->users_id = $users->id;
+        $usersetting->save();
 
     // $userss = User::create(
     //     [   'firstname' => 'Agent',
@@ -73,7 +73,7 @@ class AdminSeeder extends Seeder
     //     $usersetting->users_id = $usersss->id;
     //     $usersetting->save();
 
-        
+
 
     //     $customer = Customer::create(['firstname' => '',
     //         'lastname' => '',
@@ -94,8 +94,8 @@ class AdminSeeder extends Seeder
     //     $customersetting->save();
 
     //     $this->assignRoles();
-		
-		
+
+
     }
 
     public function createPermissions(){
@@ -193,11 +193,11 @@ class AdminSeeder extends Seeder
         Permission::create(['name' => 'Pages Access'  , 'guard_name' => 'web',]);
         Permission::create(['name' => 'Pages Edit'  , 'guard_name' => 'web',]);
         Permission::create(['name' => 'Pages View'  , 'guard_name' => 'web',]);
-        // 404 page 
+        // 404 page
         Permission::create(['name' => '404 Error Page Access'  , 'guard_name' => 'web',]);
-        // Under Maintanance page 
+        // Under Maintanance page
         Permission::create(['name' => 'Under Maintanance Page Access'  , 'guard_name' => 'web',]);
-        // App Setting 
+        // App Setting
         Permission::create(['name' => 'App Setting Access'  , 'guard_name' => 'web',]);
         Permission::create(['name' => 'General Setting Access'  , 'guard_name' => 'web',]);
         Permission::create(['name' => 'Ticket Setting Access'  , 'guard_name' => 'web',]);
@@ -227,9 +227,9 @@ class AdminSeeder extends Seeder
         Permission::create(['name' => 'Email Template Edit'  , 'guard_name' => 'web',]);
         //Reports Template
         Permission::create(['name' => 'Reports Access'  , 'guard_name' => 'web',]);
-        
-        
-        
+
+
+
 
     }
 
@@ -251,9 +251,9 @@ class AdminSeeder extends Seeder
 
     public function assignRoles()
 	{
-		
-		// $user = User::find(1);
-		// $user->assignRole('superadmin');
+
+		$user = User::find(1);
+		$user->assignRole('superadmin');
         // $users = User::find(2);
 		// $users->assignRole('agent');
 
