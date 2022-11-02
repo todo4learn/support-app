@@ -17,22 +17,8 @@ class HttpsProtocolMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // $mysql_link = @mysqli_connect(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'), env('DB_DATABASE'), env('DB_PORT'));
-        // if (mysqli_connect_errno() || !DB::getSchemaBuilder()->hasTable('settings') ) {
-        //     return $next($request);
-
-        // }else{
-        //     if(setting('FORCE_SSL') == 'on'){
-        //         if (!$request->secure()) {
-        //             return redirect()->secure($request->getPathInfo());
-        //         }
-        //         return $next($request);
-        //     }else{
-        //         return $next($request);
-        //     }
-        // }
-
-        if (DB::connection() && DB::getSchemaBuilder()->hasTable('settings') ) {
+        $mysql_link = @mysqli_connect(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'), env('DB_DATABASE'), env('DB_PORT'));
+        if (mysqli_connect_errno() || !DB::getSchemaBuilder()->hasTable('settings') ) {
             return $next($request);
 
         }else{
