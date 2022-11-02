@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             \App\Http\Middleware\Languagelocaliztion::class,
-            // \App\Http\Middleware\HttpsProtocolMiddleware::class,
+            \App\Http\Middleware\HttpsProtocolMiddleware::class,
         ],
 
         'api' => [
@@ -86,14 +86,14 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
-        // 'checkinstallation' => \App\Http\Middleware\Checkinstallation::class,
-        // 'admincountryblock' => \App\Http\Middleware\AdminCountryblockunblockMiddleware::class,
-        // 'countrylistbub' => \App\Http\Middleware\CountryblockunblockMiddleware::class,
-        // 'ipblockunblock' => \App\Http\Middleware\IPblockunblockMiddleware::class,
-        // 'https' => \App\Http\Middleware\HttpsProtocolMiddleware::class,
+        'checkinstallation' => \App\Http\Middleware\Checkinstallation::class,
+        'admincountryblock' => \App\Http\Middleware\AdminCountryblockunblockMiddleware::class,
+        'countrylistbub' => \App\Http\Middleware\CountryblockunblockMiddleware::class,
+        'ipblockunblock' => \App\Http\Middleware\IPblockunblockMiddleware::class,
+        'https' => \App\Http\Middleware\HttpsProtocolMiddleware::class,
 
-        // 'apichecking' => \App\Http\Middleware\ApiCheckingMiddleware::class,
-        // 'caninstall' => \App\Http\Middleware\Install\CanInstall::class,
-        // 'canupdate' => \App\Http\Middleware\Install\CanUpdate::class,
+        'apichecking' => \App\Http\Middleware\ApiCheckingMiddleware::class,
+        'caninstall' => \App\Http\Middleware\Install\CanInstall::class,
+        'canupdate' => \App\Http\Middleware\Install\CanUpdate::class,
     ];
 }
