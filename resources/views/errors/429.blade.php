@@ -61,8 +61,8 @@
 					<div class="display-1 text-primary mb-5 font-weight-bold">
 						<span id="timer-countercallback" class="tx-26 mb-0">00 : 00</span>
 					</div>
-					<h1 class="h3  mb-3 font-weight-semibold">{{__('langconvert.admindashboard.tomanyrequest')}}</h1>
-					<p class="h5 font-weight-normal mb-7 leading-normal">{{__('langconvert.admindashboard.tomanycontent')}}</p>
+					<h1 class="h3  mb-3 font-weight-semibold">{{trans('langconvert.admindashboard.tomanyrequest')}}</h1>
+					<p class="h5 font-weight-normal mb-7 leading-normal">{{trans('langconvert.admindashboard.tomanycontent')}}</p>
 				</div>
 			</div>
 		</div>

@@ -93,7 +93,7 @@ class AdminSeeder extends Seeder
     //     $customersetting->custs_id = $customer->id;
     //     $customersetting->save();
 
-    //     $this->assignRoles();
+        $this->assignRoles();
 
 
     }
