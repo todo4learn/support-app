@@ -274,7 +274,7 @@ Route::middleware(ProtectAgainstSpam::class)->group(function() {
 
     });
 
-    Route::middleware(['countrylistbub', 'throttle:refresh', 'ipblockunblock'])->group(function () {
+    Route::middleware(['countrylistbub', 'ipblockunblock'])->group(function () {
 
 
         Route::group(['namespace' => 'User', 'prefix' => 'customer'], function(){
