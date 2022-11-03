@@ -34,12 +34,12 @@
 
 											@php $module = Module::all(); @endphp
 
-											@if(in_array('Uhelpupdate', $module))
+											{{-- @if(in_array('Uhelpupdate', $module))
 											@if(setting('ENVATO_ON') == 'on')
 
 												<button class="btn btn-info" id="envatoapiassign">{{trans('langconvert.newwordslang.envatoapiassign')}}</button>
 											@endif
-											@endif
+											@endif --}}
 
 										</div>
 									</div>
@@ -66,7 +66,7 @@
 								</div>
 							</div>
 							<!-- List Category List -->
-			
+
 							@endsection
 
 
@@ -156,7 +156,7 @@
 							minimumResultsForSearch: '',
 							width: '100%',
 						});
-					
+
 					});
 					$('#addtestimonial').modal('show');
 				});
@@ -205,10 +205,10 @@
 							dropdownParent: ".sprukosubcat",
 							minimumResultsForSearch: '',
 							width: '100%',
-							
+
 						});
 						$('.categorysub').html(data.output);
-						
+
 
 					})
 				});
@@ -305,7 +305,7 @@
 								$('#nameError').html(data.errors.name);
 								$('#displayError').html(data.errors.display);
 								$('#btnsave').html('Save Changes');
-								
+
 							}
 							if(data.success){
 								$('#nameError').html('');
@@ -369,7 +369,7 @@
 						minimumResultsForSearch: '',
 						placeholder: "Search",
 						width: '100%'
-						
+
 					});
 
 					$.get('categorylist/' , function (data) {
@@ -400,7 +400,7 @@
 						}
 					});
 				});
-				
+
 			})(jQuery);
 		</script>
 
