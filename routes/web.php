@@ -32,7 +32,7 @@ use App\Http\Controllers\User\Ticket\CommentsController;
 Route::middleware(ProtectAgainstSpam::class)->group(function() {
 
 
-    Route::middleware(['admincountryblock','throttle:refresh', 'ipblockunblock'])->group(function () {
+    Route::middleware(['admincountryblock', 'ipblockunblock'])->group(function () {
 
 
         Route::group(['namespace' => 'Admin', 'prefix'	 => 'admin'], function () {
