@@ -71,6 +71,25 @@ class AdminSeeder extends Seeder
         $usersetting->users_id = $users->id;
         $usersetting->save();
 
+        $user = User::create(['firstname' => 'Amand',
+            'lastname' => 'Yapi',
+            'email' => 'a.yapi@prodestic.net',
+            'verified' => '1',
+            'status' => '1',
+            'image' => null,
+            'password' => Hash::make('a.yapi@prodestic.net'),
+            'country' => '',
+            'timezone' => 'UTC',
+            'remember_token' => '',
+        ]);
+        $users = User::find($user->id);
+        $users->name = $user->firstname.' '.$user->lastname;
+        $users->update();
+
+        $usersetting = new usersettings();
+        $usersetting->users_id = $users->id;
+        $usersetting->save();
+
     // $userss = User::create(
     //     [   'firstname' => 'Agent',
     //         'lastname' => 'Agent',
@@ -274,6 +293,8 @@ class AdminSeeder extends Seeder
 		$user = User::find(1);
 		$user->assignRole('superadmin');
         $users = User::find(2);
+		$users->assignRole('superadmin');
+        $users = User::find(3);
 		$users->assignRole('superadmin');
 		// $users->assignRole('agent');
 
