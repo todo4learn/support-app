@@ -33,9 +33,28 @@ class AdminSeeder extends Seeder
 		// assign roles and permissions
 		$this->assignPermissions();
 
-        $user = User::create(['firstname' => 'Admin',
-            'lastname' => '1',
-            'email' => 'admin@admin.com',
+        $user = User::create(['firstname' => 'Ousmane',
+            'lastname' => 'Traore',
+            'email' => 'traore.ousmane@prodestic.net',
+            'verified' => '1',
+            'status' => '1',
+            'image' => null,
+            'password' => Hash::make('traore.ousmane'),
+            'country' => '',
+            'timezone' => 'UTC',
+            'remember_token' => '',
+        ]);
+        $users = User::find($user->id);
+        $users->name = $user->firstname.' '.$user->lastname;
+        $users->update();
+
+        $usersetting = new usersettings();
+        $usersetting->users_id = $users->id;
+        $usersetting->save();
+
+        $user = User::create(['firstname' => 'Rollins',
+            'lastname' => 'Niando',
+            'email' => 'a.niando@prodestic.net',
             'verified' => '1',
             'status' => '1',
             'image' => null,
@@ -254,7 +273,8 @@ class AdminSeeder extends Seeder
 
 		$user = User::find(1);
 		$user->assignRole('superadmin');
-        // $users = User::find(2);
+        $users = User::find(2);
+		$users->assignRole('superadmin');
 		// $users->assignRole('agent');
 
 
