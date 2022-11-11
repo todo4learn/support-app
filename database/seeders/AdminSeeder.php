@@ -71,13 +71,13 @@ class AdminSeeder extends Seeder
         $usersetting->users_id = $users->id;
         $usersetting->save();
 
-        $user = User::create(['firstname' => 'Amand',
-            'lastname' => 'Yapi',
-            'email' => 'a.yapi@prodestic.net',
+        $user = User::create(['firstname' => 'Anicet',
+            'lastname' => 'Gnahoua',
+            'email' => 'gnahoua.anicet@prodestic.net',
             'verified' => '1',
             'status' => '1',
             'image' => null,
-            'password' => Hash::make('a.yapi@prodestic.net'),
+            'password' => Hash::make('gnahoua.anicet@prodestic.net'),
             'country' => '',
             'timezone' => 'UTC',
             'remember_token' => '',
