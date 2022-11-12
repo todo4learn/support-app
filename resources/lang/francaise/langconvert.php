@@ -683,4 +683,8 @@ return[
             'ticketnotedes' => 'Ajoutez vos notes ici',
 
         ],
+
+        'placeholders' => [
+            'askyourquestion' => 'Posez vos questions.....'
+        ],
     ];

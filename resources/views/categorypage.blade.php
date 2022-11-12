@@ -37,15 +37,15 @@
 						<div class="col-xl-8">
 							<div class="card p-0">
 								<div class="search-background category-search p-0">
-									<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="Ask your Questions.....">
+									<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="{{ trans('langconvert.placeholders.askyourquestion') }}">
 									<button class="btn"><i class="fe fe-search"></i></button>
-		
+
 									<div id="searchList">
-										
+
 									</div>
 								</div>
 								@csrf
-							</div>	
+							</div>
 							<div class="card">
 								<div class="card-header border-0">
 									<h4 class="card-title mb-2">{{$category->name}}</h4>
@@ -61,7 +61,7 @@
 											<li>
 												<a class="" href="{{url('/article/' . $article->articleslug)}}"><i class="typcn typcn-document-text"></i><span class="categ-text">{{$article->title}}</span></a>
 											</li>
-										
+
 											@else
 
 											<li>
@@ -90,7 +90,7 @@
 												@if($recentarticle->articleslug != null)
 
 												<a href="{{url('/article/' . $recentarticle->articleslug)}} " class=" admintickets"></a>
-											
+
 												@else
 
 												<a href="{{url('/article/' . $recentarticle->id)}} " class=" admintickets"></a>
@@ -107,7 +107,7 @@
 													<div class="ms-auto">
 															<span class="badge badge-light badge-md fs-10"><i
 																class="fa fa-eye me-1"></i>{{$recentarticle->views}}</span>
-													
+
 													</div>
 												</div>
 											</li>
@@ -130,7 +130,7 @@
 												@if($populararticle->articleslug != null)
 
 												<a href="{{url('/article/' . $populararticle->articleslug)}} " class=" admintickets"></a>
-											
+
 												@else
 
 												<a href="{{url('/article/' . $populararticle->id)}} " class=" admintickets"></a>
@@ -149,7 +149,7 @@
 															<i class="fa fa-eye me-1"></i>
 															{{$populararticle->views}}
 														</span>
-														
+
 													</div>
 												</div>
 											</li>
@@ -158,7 +158,7 @@
 										</ul>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
@@ -175,15 +175,15 @@
 
 	<script type="text/javascript">
 		"use strict";
-		
+
 		(function($){
 
 			// close the data search
-			document.querySelector('.page-main').addEventListener('click', ()=>{ 
+			document.querySelector('.page-main').addEventListener('click', ()=>{
 				$('#searchList').fadeOut();
-				$('#searchList').html(''); 
+				$('#searchList').html('');
 			});
-			
+
 			// search the data
 			$('#search_name').keyup(function () {
 

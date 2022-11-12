@@ -20,7 +20,7 @@
 		@else
 
 		<!--Favicon -->
-		<link rel="icon" href="{{asset('uploads/logo/favicons/'.$title->image4)}}" type="image/x-icon"/>  
+		<link rel="icon" href="{{asset('uploads/logo/favicons/'.$title->image4)}}" type="image/x-icon"/>
 		@endif
 
 		@if(str_replace('_', '-', app()->getLocale()) == 'عربى')
@@ -60,7 +60,7 @@
 		<!-- GALLERY CSS -->
 		<link href="{{asset('assets/plugins/simplelightbox/simplelightbox.css')}}?v=<?php echo time(); ?>" rel="stylesheet">
 
-		<!-- Color Change -->	
+		<!-- Color Change -->
 		<style>
 			:root {
 				--primary: @php echo setting('theme_color') @endphp;
@@ -76,7 +76,7 @@
 		</style>
 
 		@if(setting('GOOGLEFONT_DISABLE') == 'off')
-		
+
 		<!-- Google Fonts -->
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
@@ -120,12 +120,12 @@
 															<a href="{{url('/category/'. $articles->category->categoryslug)}}" class="text-white"> {{$articles->category->name}}</a>
 														</li>
 														@else
-														
+
 														<li class="breadcrumb-item ">
 															<a href="{{url('/category/'. $articles->category->id	)}}" class="text-white"> {{$articles->category->name}}</a>
 														</li>
 														@endif
-														
+
 														@if($articles->subcategory != null)
 
 														<li class="breadcrumb-item ">
@@ -162,13 +162,13 @@
 																		$articles->views !!}</span>
 																</li>
 															</ul>
-														</div>	
+														</div>
 														<div class="klview-icons btn-group">
 															<span class="btn btn-white btn-sm"><i
 																	class="fa fa-thumbs-up text-success"></i> {{$like->count()}}</span>
 															<span class="btn btn-white btn-sm"><i
 																	class="fa fa-thumbs-down text-danger"></i> {{$dislike->count()}}</span>
-														</div>	
+														</div>
 													</div>
 													<div class="card-body pt-0">
 
@@ -176,16 +176,16 @@
 															@if(Auth::guard('customer')->check() && Auth::guard('customer')->user())
 															<div class="mb-4 description mt-3">
 																@if($articles->featureimage != null)
-																
+
 																<img src="{{asset('uploads/featureimage/'.$articles->featureimage)}}" alt="">
 																@endif
 																<div class="mt-3">{!!ucfirst($articles->message) !!}</div>
-																
+
 																<div class="row">
 																	<div class="col-xl-12">
 																		<div class="row">
 																			@foreach ($articles->getMedia('article') as $article)
-	
+
 																			<div class="col-xl-3 col-md-4 col-sm-12">
 																				<div class="tags  gallery me-3">
 																				<a href="{{url($article->getFullUrl())}}">
@@ -195,7 +195,7 @@
 																					</span>
 																				</a>
 																			</div>
-																			
+
 																			</div>
 																			@endforeach
 																		</div>
@@ -203,7 +203,7 @@
 																</div>
 															</div>
 															@else
-															
+
 															<div class="alert alert-light-warning mt-3">
 																<p class="privatearticle">
 																<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
@@ -215,11 +215,11 @@
 
 															<div class="mb-4 description mt-3">
 																@if($articles->featureimage != null)
-																
+
 																<img src="{{asset('uploads/featureimage/'.$articles->featureimage)}}" alt="">
 																@endif
 																<div class="mt-3">{!!ucfirst($articles->message) !!}</div>
-																
+
 																<div class="row">
 																	<div class="col-xl-12">
 																		<div class="d-flex flex-wrap align-items-center">
@@ -233,14 +233,14 @@
 																					</span>
 																				</a>
 																			</div>
-																			
+
 																			@endforeach
 																		</div>
 																	</div>
 																</div>
 															</div>
 														@endif
-													
+
 
 													</div>
 													@guest
@@ -253,7 +253,7 @@
 
 													@if(Auth::guard('customer')->check() && Auth::guard('customer')->user())
 													<div class="card-body d-md-flex">
-														<div> 
+														<div>
 															<span class="">{{trans('langconvert.admindashboard.articlehelpfull')}}</span>
 															<button class="btn btn-success btn-sm likedislike" value="like" data-name="{{$articles->id}}" @if($viewrating != null) {{$viewrating->rating == '1' ? 'disabled' : ''}} @endif>
 																<i class="fa fa-thumbs-up"></i>
@@ -262,10 +262,10 @@
 																<i class="fa fa-thumbs-down"></i>
 															</button>
 															<a href="{{url('/likes/'.$articles->id)}}" >
-																
+
 															</a>
 															<a href="{{url('/dislikes/'.$articles->id)}}" >
-																
+
 															</a>
 														</div>
 													</div>
@@ -278,15 +278,15 @@
 											<div class="col-xl-4">
 												<div class="card p-0">
 													<div class="search-background article-search p-0">
-														<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="Ask your Questions.....">
+														<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="{{ trans('langconvert.placeholders.askyourquestion') }}">
 														<button class="btn"><i class="fe fe-search"></i></button>
-							
+
 														<div id="searchList">
-															
+
 														</div>
 													</div>
 													@csrf
-												</div>	
+												</div>
 
 												<div class="card ">
 													<div class="card-header  border-0">
@@ -300,7 +300,7 @@
 																	@if($recentarticle->articleslug != null)
 
 																	<a href="{{url('/article/' . $recentarticle->articleslug)}} " class=" admintickets"></a>
-																
+
 																	@else
 
 																	<a href="{{url('/article/' . $recentarticle->id)}} " class=" admintickets"></a>
@@ -308,7 +308,7 @@
 																	<div class="d-flex">
 																		<div class="me-7">
 																			<i class="typcn typcn-document-text item-list-icon"></i>
-																		
+
 																		</div>
 																		<div class="">
 																			<span class="">{{Str::limit($recentarticle->title,'40')}} </span>
@@ -320,12 +320,12 @@
 																	</div>
 																</li>
 																@endforeach
-					
+
 															</ul>
 														</div>
 													</div>
 												</div>
-					
+
 												<div class="card mb-0">
 													<div class="card-header  border-0">
 														<h4 class="card-title">{{trans('langconvert.menu.populararticles')}}</h4>
@@ -356,11 +356,11 @@
 																	</div>
 																</li>
 																@endforeach
-					
+
 															</ul>
 														</div>
 													</div>
-													
+
 												</div>
 											</div>
 										</div>
@@ -372,7 +372,7 @@
 					</div>
 				</div>
 				<!--Article Page View -->
-				
+
 				@include('includes.footer')
 
 		<!-- Back to top -->
@@ -417,7 +417,7 @@
 		<!-- Custom html js-->
 		<script src="{{URL::asset('assets/js/custom.js')}}?v=<?php echo time(); ?>"></script>
 
-		<!-- Custom js-->	
+		<!-- Custom js-->
 		<script type="text/javascript">
 			"use strict";
 
@@ -425,11 +425,11 @@
 
 
 			// close the data search
-			document.querySelector('.page-main').addEventListener('click', ()=>{ 
+			document.querySelector('.page-main').addEventListener('click', ()=>{
 				$('#searchList').fadeOut();
-				$('#searchList').html(''); 
+				$('#searchList').html('');
 			});
-			
+
 			// search the data
 			$('#search_name').keyup(function () {
 
@@ -485,7 +485,7 @@
 		</script>
 
 		@elseif(Session::has('success'))
-		
+
 		<script>
 			toastr.success("{!! Session::get('success') !!}");
 		</script>
@@ -505,7 +505,7 @@
 		@include('user.auth.modalspopup.register')
 
 		@include('user.auth.modalspopup.login')
-		
+
 		@include('user.auth.modalspopup.forgotpassword')
 
 </body>

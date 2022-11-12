@@ -22,11 +22,11 @@
 											<div class="row">
 												<div class="col-xl-7 col-lg-12 col-md-12 d-block mx-auto">
 													<div class="search-background p-0">
-														<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="Ask your Questions.....">
+														<input type="text" class="form-control input-lg" name="search_name" id="search_name"  placeholder="{{ trans('langconvert.placeholders.askyourquestion') }}">
 														<button class="btn"><i class="fe fe-search"></i></button>
 
 														<div id="searchList">
-															
+
 														</div>
 													</div>
 													@csrf
@@ -77,7 +77,7 @@
 								</div>
 							</section>
 							<!--Feature Box Section-->
-						
+
 						@if ($call->callcheck == 'on')
 
 							<!--Call Action Section-->
@@ -124,7 +124,7 @@
 											@if ($article->isEmpty())
 
 											@else
-											
+
 											<div class="col-xl-6">
 												<div class="card">
 													<div class="card-header border-bottom-0">
@@ -135,7 +135,7 @@
 															@foreach ($article as $articles)
 
 															@if($articles->articleslug != null)
-															
+
 															<li>
 																<a class="" href="{{url('/article/' . $articles->articleslug)}}"><i class="typcn typcn-document-text"></i><span class="categ-text">{{Str::limit($articles->title, '100')}}</span></a>
 															</li>
@@ -191,32 +191,32 @@
 															<h4 class="fs-25 card-title d-flex">{{$category->name}}
 																<span class="card-options float-end font-weight-normal fs-14">
 																	@if ($category->articles()->where('status', 'Published')->simplepaginate(5) > '5')
-	
+
 																	@if($category->categoryslug != null)
 
 																	<a href="{{url('/category/'. $category->categoryslug)}}" class="text-primary">{{trans('langconvert.menu.viewall')}}</a>
 																	@else
-			
+
 																	<a href="{{url('/category/'. $category->id)}}" class="text-primary">{{trans('langconvert.menu.viewall')}}</a>
 																	@endif
-	
+
 																	@endif
 																</span>
 															</h4>
-															
+
 														</div>
 														<div class="card-body">
 															<ul class="list-unstyled list-article mb-0">
 
 																@foreach ($category->articles()->where('status', 'Published')->latest()->simplepaginate(5) as $articless)
-																
+
 																@if($articless->articleslug != null)
 
 																<li>
 																	<a class="" href="{{url('/article/' . $articless->articleslug)}}"><i class="typcn typcn-document-text"></i><span class="categ-text">{{Str::limit($articless->title,'50')}}</span></a>
 																</li>
 																@else
-	
+
 																<li>
 																	<a class="" href="{{url('/article/' . $articless->id)}}"><i class="typcn typcn-document-text"></i><span class="categ-text">{{Str::limit($articless->title,'50')}}</span></a>
 																</li>
@@ -302,7 +302,7 @@
 										</div>
 										<div class="accordion suuport-accordion" id="accordion" >
 											@foreach ($faq as $faqs)
-											
+
 											<div class="row">
 												<div class="col-md-12 d-block mx-auto mb-2">
 													<div class="acc-card wow fadeInUp" data-wow-delay="0.2s">
@@ -329,7 +329,7 @@
 																</div>
 																@endif
 																@else
-																
+
 																{!!$faqs->answer!!}
 																@endif
 															</div>
@@ -362,13 +362,13 @@
 
 		<script type="text/javascript">
 			"use strict";
-			
+
 			(function($){
 
 				// close the data search
-				document.querySelector('.page-main').addEventListener('click', ()=>{ 
+				document.querySelector('.page-main').addEventListener('click', ()=>{
 					$('#searchList').fadeOut();
-					$('#searchList').html(''); 
+					$('#searchList').html('');
 				});
 
 				// search the data
