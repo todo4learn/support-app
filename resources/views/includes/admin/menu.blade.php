@@ -8,37 +8,37 @@
 
 										<img src="{{asset('uploads/logo/logo/logo-white.png')}}" class="header-brand-img dark-logo" alt="logo">
 										@else
-		
+
 										<img src="{{asset('uploads/logo/logo/'.$title->image)}}" class="header-brand-img dark-logo" alt="logo">
 										@endif
-		
+
 										{{--Dark-Logo--}}
 										@if ($title->image1 == null)
-		
+
 										<img src="{{asset('uploads/logo/darklogo/logo.png')}}" class="header-brand-img desktop-lgo" alt="dark-logo">
 										@else
-		
+
 										<img src="{{asset('uploads/logo/darklogo/'.$title->image1)}}" class="header-brand-img desktop-lgo" alt="dark-logo">
 										@endif
-		
+
 										{{--Mobile-Logo--}}
 										@if ($title->image2 == null)
-		
+
 										<img src="{{asset('uploads/logo/icon/icon.png')}}" class="header-brand-img mobile-logo" alt="mobile-logo">
 										@else
-		
+
 										<img src="{{asset('uploads/logo/icon/'.$title->image2)}}" class="header-brand-img mobile-logo" alt="mobile-logo">
 										@endif
-		
+
 										{{--Mobile-Dark-Logo--}}
 										@if ($title->image3 == null)
-		
+
 										<img src="{{asset('uploads/logo/darkicon/icon-white.png')}}" class="header-brand-img darkmobile-logo" alt="mobile-dark-logo">
 										@else
-		
+
 										<img src="{{asset('uploads/logo/darkicon/'.$title->image3)}}" class="header-brand-img darkmobile-logo" alt="mobile-dark-logo">
 										@endif
-										
+
 										</a>
 										<div class="app-sidebar__toggle" data-bs-toggle="sidebar">
 											<a class="open-toggle" href="#">
@@ -51,25 +51,25 @@
 										<div class="header-buttons-main">
 											<a class="btn btn-outline-light header-buttons text-center" href="{{url('/admin/createticket')}}"><i class="fa fa-paper-plane-o pe-lg-2"></i><span class="d-m-none">{{trans('langconvert.adminmenu.createticket')}}</span></a>
 											<a class="btn btn-outline-light header-buttons text-center visitsite ms-2" href="{{route('home')}}" target="_blank"><i class="fe fe-home pe-lg-2"></i><span class="d-m-none">{{trans('langconvert.adminmenu.visitsite')}}</span></a>
-												
+
 										</div><!-- SEARCH -->
 										<div class="d-flex order-lg-2 my-auto ms-auto dropdown-container align-items-center">
-											
+
 											<div class="dropdown header-flags">
 												<a href="#" class="text-capitalize dropdown-toggle" data-bs-toggle="dropdown">
-													<span class="">{{ app()->getLocale() }} </span>
+													<span class="">{{ app()->getLocale() === "francaise" ? 'Française' : app()->getLocale()  }} </span>
 												</a>
 												<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated text-uppercase">
 													@foreach(getLanguages() as $lang)
 
 														<a href="{{route('admin.front.set_language', [$lang])}}" class="dropdown-item d-flex fs-13">
-														<span class="">{{ $lang }}</span>
+														<span class="">{{ $lang === "francaise" ? 'Française' : $lang }}</span>
 														</a>
 													@endforeach
-													
+
 												</div>
 											</div>
-											
+
 											<div class="dropdown header-fullscreen">
 												<a class="nav-link icon full-screen-link">
 													<i class="feather feather-maximize fullscreen-button fullscreen header-icons"></i>
@@ -77,7 +77,7 @@
 												</a>
 											</div>
 											@include('includes.admin.notification')
-											
+
 											<div class="dropdown profile-dropdown">
 												<a href="#" class="nav-link pe-1 ps-0 leading-none" data-bs-toggle="dropdown">
 													<span>
@@ -116,4 +116,4 @@
 									</div>
 								</div>
 							</div>
-							<!--/app header-->	
+							<!--/app header-->
