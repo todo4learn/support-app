@@ -5,7 +5,7 @@
 							<div class="d-flex">
 								<div class="headerlanding-logo">
 									<a class="header-brand" href="{{url('/')}}">
-										
+
 										@if ($title->image !== null)
 
 										<img src="{{asset('uploads/logo/logo/'.$title->image)}}" class="header-brand-img desktop-lgo"
@@ -19,14 +19,14 @@
 											<img src="{{asset('uploads/logo/darklogo/'.$title->image1)}}" class="header-brand-img light-logo"
 											alt="{{$title->image1}}">
 										@else
-										
+
 										<img src="{{asset('uploads/logo/darklogo/logo.png')}}" class="header-brand-img light-logo"
 											alt="logo">
 
 										@endif
-										
-									
-									
+
+
+
 									</a>
 
 								</div>
@@ -65,7 +65,7 @@
 										@endif
 										@endif
 										@endforeach
-										
+
 										@if (Auth::guard('customer')->check())
 
 										@include('includes.user.notifynotication')
@@ -78,7 +78,7 @@
 											@foreach(getLanguages() as $lang)
 
 												<a href="{{route('front.set_language', [$lang])}}" class="dropdown-item d-flex fs-13">
-													<span class="nav-link-inner--text">{{ $lang }}</span>
+													<span class="nav-link-inner--text">{{ $lang !== "Francaise" ? $lang : 'Française' }}</span>
 												</a>
 
 											@endforeach
@@ -172,7 +172,7 @@
 											</div>
 										</li>
 										@if(setting('GUEST_TICKET') == 'yes')
-										
+
 										<li>
 											<span class="menu-btn">
 												<a class="btn btn-secondary m-0" href="{{url('/guest/openticket')}}">
