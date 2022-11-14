@@ -22,7 +22,7 @@
 								</div>
 							</div>
 							<!--End Page header-->
-							
+
 							<!--Article Create-->
 							<div class="col-xl-12 col-lg-12 col-md-12">
 								<div class="card ">
@@ -288,7 +288,7 @@
 				height: 120,
 			});
 
-			// when category change its get the subcat list 
+			// when category change its get the subcat list
 			$('#category').on('change',function(e) {
 				e.preventDefault();
 				var cat_id = e.target.value;
@@ -302,7 +302,7 @@
 						},
 					success:function (data) {
 						if(data.subcategoriess){
-							
+
 							$('#selectssSubCategory').hide()
 							$('#subscategory').html(data.subcategoriess)
 							$('.subcategoryselect').select2();
@@ -321,23 +321,30 @@
 				localStorage.setItem('articlesubject', e.target.value)
 			})
 
-			// summernote 
-			$('.note-editable').on('keyup', function(e){
-				localStorage.setItem('articlemessage', e.target.innerHTML)
-			})
-			
+			// summernote
+			// $('.note-editable').on('keyup', function(e){
+			// 	localStorage.setItem('articlemessage', e.target.innerHTML)
+			// })
+
 
 			// onload get the data from local
-			$(window).on('load', function(){
-				if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+			// $(window).on('load', function(){
+			// 	if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+
+			// 		document.querySelector('#subject').value = localStorage.getItem('articlesubject');
+			// 		document.querySelector('.summernote').innerHTML = localStorage.getItem('articlemessage');
+			// 		document.querySelector('.note-editable').innerHTML = localStorage.getItem('articlemessage');
+			// 	}
+			// })
+
+            $(window).on('load', function(){
+				if(localStorage.getItem('articlesubject')){
 
 					document.querySelector('#subject').value = localStorage.getItem('articlesubject');
-					document.querySelector('.summernote').innerHTML = localStorage.getItem('articlemessage');
-					document.querySelector('.note-editable').innerHTML = localStorage.getItem('articlemessage');
 				}
 			})
 
-			// Create Ticket 
+			// Create Ticket
 			$('body').on('submit', '#adminarticle_forms', function (e) {
 				e.preventDefault();
 				$('#TitleError').html('');
@@ -346,6 +353,7 @@
 				$('#TagsError').html('');
 				$('#StatusError').html('');
 				var actionType = $('#btnsave').val();
+                console.log(actionType)
 				var fewSeconds = 2;
 				$('#btnsave').html('Sending..');
 				$('#btnsave').prop('disabled', true);
@@ -353,6 +361,8 @@
 						$('#btnsave').prop('disabled', false);
 					}, fewSeconds*1000);
 				var formData = new FormData(this);
+                console.log(this)
+                console.log(formData)
 
 				$.ajax({
 					type:'post',
@@ -361,9 +371,10 @@
 					cache:false,
 					contentType: false,
 					processData: false,
-	
+
 					success: (data) => {
-						
+                        console.log(data)
+
 
 						$('#TitleError').html('');
 						$('#CategoryError').html('');
@@ -371,29 +382,33 @@
 						$('#TagsError').html('');
 						$('#StatusError').html('');
 						toastr.success(data.success);
-						if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+						// if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+						// 	localStorage.removeItem("articlesubject");
+						// 	localStorage.removeItem("articlemessage");
+						// }
+						if(localStorage.getItem('articlesubject')){
 							localStorage.removeItem("articlesubject");
-							localStorage.removeItem("articlemessage");
 						}
 						window.location.replace('{{url('admin/article')}}');
-						
-						
-						
-						
+
+
+
+
 					},
 					error: function(data){
+                        console.log(data)
 
 						$('#TitleError').html(data.responseJSON.errors.title);
 						$('#CategoryError').html(data.responseJSON.errors.category);
 						$('#MessageError').html(data.responseJSON.errors.message);
 						$('#TagsError').html(data.responseJSON.errors.tags);
 						$('#StatusError').html(data.responseJSON.errors.status);
-						
+
 					}
 				});
-				
+
 			});
 
 		</script>
-		
+
 		@endsection
