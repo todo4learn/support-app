@@ -22,7 +22,7 @@
 								</div>
 							</div>
 							<!--End Page header-->
-							
+
 							<!--Article Create-->
 							<div class="col-xl-12 col-lg-12 col-md-12">
 								<div class="card ">
@@ -288,7 +288,7 @@
 				height: 120,
 			});
 
-			// when category change its get the subcat list 
+			// when category change its get the subcat list
 			$('#category').on('change',function(e) {
 				e.preventDefault();
 				var cat_id = e.target.value;
@@ -302,7 +302,7 @@
 						},
 					success:function (data) {
 						if(data.subcategoriess){
-							
+
 							$('#selectssSubCategory').hide()
 							$('#subscategory').html(data.subcategoriess)
 							$('.subcategoryselect').select2();
@@ -321,11 +321,15 @@
 				localStorage.setItem('articlesubject', e.target.value)
 			})
 
-			// summernote 
+			// summernote
 			$('.note-editable').on('keyup', function(e){
-				localStorage.setItem('articlemessage', e.target.innerHTML)
+                try {
+				    localStorage.setItem('articlemessage', e.target.innerHTML)
+                } catch (error) {
+                    console.log(error)
+                }
 			})
-			
+
 
 			// onload get the data from local
 			$(window).on('load', function(){
@@ -337,7 +341,7 @@
 				}
 			})
 
-			// Create Ticket 
+			// Create Ticket
 			$('body').on('submit', '#adminarticle_forms', function (e) {
 				e.preventDefault();
 				$('#TitleError').html('');
@@ -361,9 +365,9 @@
 					cache:false,
 					contentType: false,
 					processData: false,
-	
+
 					success: (data) => {
-						
+
 
 						$('#TitleError').html('');
 						$('#CategoryError').html('');
@@ -376,10 +380,10 @@
 							localStorage.removeItem("articlemessage");
 						}
 						window.location.replace('{{url('admin/article')}}');
-						
-						
-						
-						
+
+
+
+
 					},
 					error: function(data){
 
@@ -388,12 +392,12 @@
 						$('#MessageError').html(data.responseJSON.errors.message);
 						$('#TagsError').html(data.responseJSON.errors.tags);
 						$('#StatusError').html(data.responseJSON.errors.status);
-						
+
 					}
 				});
-				
+
 			});
 
 		</script>
-		
+
 		@endsection
