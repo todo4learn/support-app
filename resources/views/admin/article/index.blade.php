@@ -100,7 +100,7 @@
 									<div class="card-body">
 										<div class="table-responsive spruko-delete">
 											@can('Article Delete')
-											
+
 											<button id="massdelete" class="btn btn-outline-light btn-sm mb-4 data-table-btn"><i class="fe fe-trash"></i> {{trans('langconvert.admindashboard.delete')}}</button>
 											@endcan
 
@@ -126,7 +126,8 @@
 
 														<th  >{{trans('langconvert.admindashboard.title')}}</th>
 														<th >{{trans('langconvert.admindashboard.category')}}</th>
-														<th >{{trans('uhelpupdate::langconvert.newwordslang.privatemode')}}</th>
+														{{-- <th >{{trans('uhelpupdate::langconvert.newwordslang.privatemode')}}</th> --}}
+														<th >{{trans('langconvert.newwordslang.articleprivatemode')}}</th>
 														<th class="w-5">{{trans('langconvert.admindashboard.status')}}</th>
 														<th class="w-5">{{trans('langconvert.admindashboard.actions')}}</th>
 													</tr>
@@ -171,7 +172,7 @@
 
 				// Variables
 				var SITEURL = '{{url('')}}';
-			
+
 				// Csrf Field
 				$.ajaxSetup({
 					headers: {
@@ -209,7 +210,7 @@
 							minimumResultsForSearch: Infinity,
 							width: '100%'
 						});
-						
+
 						$('#customCheckAll').prop('checked', false);
 
 						$('.checkall').on('click', function(){
@@ -221,7 +222,7 @@
 						});
 					},
 				});
-				
+
 				// Delete button article
 				$('body').on('click', '#show-delete', function () {
 					var _id = $(this).data("id");
@@ -241,7 +242,7 @@
 									var oTable = $('#articlelist').dataTable();
 									oTable.fnDraw(false);
 									toastr.error(data.error);
-									
+
 								},
 								error: function (data) {
 								console.log('Error:', data);
@@ -286,7 +287,7 @@
 					});
 				});
 
-				// Mass Delete 
+				// Mass Delete
 				$('body').on('click', '#massdelete', function () {
 					var id = [];
 					$('.checkall:checked').each(function(){
@@ -311,18 +312,18 @@
 
 										$('#articlelist').DataTable().ajax.reload();
 										toastr.error(data.error);
-													
+
 									},
 									error:function(data){
 
 									}
 								});
 							}
-						});		
+						});
 					}else{
 						toastr.error('{{trans('langconvert.functions.checkboxselect')}}');
 					}
-					
+
 				});
 
 				// Checkbox check all
