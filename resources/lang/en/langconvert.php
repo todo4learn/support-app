@@ -526,6 +526,8 @@ return[
         'dosswitch' => 'Enable/Disable',
         'dosswitchcontent' => '(If you enable this setting, it prevents denial-of-service (DoS) attacks on the application.)',
 
+        'lastcreatedon' => 'Created on'
+
         ],
 
         'userdashboard' => [

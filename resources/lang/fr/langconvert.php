@@ -525,6 +525,8 @@ return[
         'dosswitch' => 'Activer/Désactiver',
         'dosswitchcontent' => '(Si vous activez ce paramètre, il empêche les attaques par déni de service (DoS) sur l’application.)',
 
+        'lastcreatedon' => 'Créé le',
+
         ],
 
         'userdashboard' => [

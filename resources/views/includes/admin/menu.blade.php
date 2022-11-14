@@ -57,13 +57,15 @@
 
 											<div class="dropdown header-flags">
 												<a href="#" class="text-capitalize dropdown-toggle" data-bs-toggle="dropdown">
-													<span class="">{{ app()->getLocale() === "francaise" ? 'Française' : app()->getLocale()  }} </span>
+													{{-- <span class="">{{ app()->getLocale() === "francaise" ? 'Française' : app()->getLocale()  }} </span> --}}
+													<span class="">{{ app()->getLocale() }} </span>
 												</a>
 												<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated text-uppercase">
 													@foreach(getLanguages() as $lang)
 
 														<a href="{{route('admin.front.set_language', [$lang])}}" class="dropdown-item d-flex fs-13">
-														<span class="">{{ $lang === "francaise" ? 'Française' : $lang }}</span>
+														{{-- <span class="">{{ $lang === "francaise" ? 'Française' : $lang }}</span> --}}
+														<span class="">{{ $lang }}</span>
 														</a>
 													@endforeach
 
