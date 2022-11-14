@@ -353,6 +353,7 @@
 				$('#TagsError').html('');
 				$('#StatusError').html('');
 				var actionType = $('#btnsave').val();
+                console.log(actionType)
 				var fewSeconds = 2;
 				$('#btnsave').html('Sending..');
 				$('#btnsave').prop('disabled', true);
@@ -360,6 +361,8 @@
 						$('#btnsave').prop('disabled', false);
 					}, fewSeconds*1000);
 				var formData = new FormData(this);
+                console.log(this)
+                console.log(formData)
 
 				$.ajax({
 					type:'post',
@@ -370,6 +373,7 @@
 					processData: false,
 
 					success: (data) => {
+                        console.log(data)
 
 
 						$('#TitleError').html('');
@@ -392,6 +396,7 @@
 
 					},
 					error: function(data){
+                        console.log(data)
 
 						$('#TitleError').html(data.responseJSON.errors.title);
 						$('#CategoryError').html(data.responseJSON.errors.category);
