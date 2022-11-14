@@ -175,6 +175,14 @@
 		<!-- INTERNAL bootstraptag js-->
 		<script src="{{asset('assets/plugins/taginput/bootstrap-tagsinput.js')}}?v=<?php echo time(); ?>"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" integrity="sha512-eYSzo+20ajZMRsjxB6L7eyqo5kuXuS2+wEbbOkpaur+sA2shQameiJiWEzCIDwJqaB0a4a6tCuEvCOBHUg3Skg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script type="text/javascript">
+            $(document).ajaxStart($.blockUI({
+                message: 'En cours...'
+            })).ajaxStop($.unblockUI)
+        </script>
+
 		<script type="text/javascript">
 
 			"use strict";
