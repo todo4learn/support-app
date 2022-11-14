@@ -322,22 +322,25 @@
 			})
 
 			// summernote
-			$('.note-editable').on('keyup', function(e){
-                try {
-				    localStorage.setItem('articlemessage', e.target.innerHTML)
-                } catch (error) {
-                    console.log(error)
-                }
-			})
+			// $('.note-editable').on('keyup', function(e){
+			// 	localStorage.setItem('articlemessage', e.target.innerHTML)
+			// })
 
 
 			// onload get the data from local
-			$(window).on('load', function(){
-				if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+			// $(window).on('load', function(){
+			// 	if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+
+			// 		document.querySelector('#subject').value = localStorage.getItem('articlesubject');
+			// 		document.querySelector('.summernote').innerHTML = localStorage.getItem('articlemessage');
+			// 		document.querySelector('.note-editable').innerHTML = localStorage.getItem('articlemessage');
+			// 	}
+			// })
+
+            $(window).on('load', function(){
+				if(localStorage.getItem('articlesubject')){
 
 					document.querySelector('#subject').value = localStorage.getItem('articlesubject');
-					document.querySelector('.summernote').innerHTML = localStorage.getItem('articlemessage');
-					document.querySelector('.note-editable').innerHTML = localStorage.getItem('articlemessage');
 				}
 			})
 
@@ -375,9 +378,12 @@
 						$('#TagsError').html('');
 						$('#StatusError').html('');
 						toastr.success(data.success);
-						if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+						// if(localStorage.getItem('articlesubject') || localStorage.getItem('articlemessage')){
+						// 	localStorage.removeItem("articlesubject");
+						// 	localStorage.removeItem("articlemessage");
+						// }
+						if(localStorage.getItem('articlesubject')){
 							localStorage.removeItem("articlesubject");
-							localStorage.removeItem("articlemessage");
 						}
 						window.location.replace('{{url('admin/article')}}');
 
