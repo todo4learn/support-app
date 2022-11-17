@@ -28,7 +28,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-       
+
         $this->authorize('Article Access');
         $article = Article::get();
         $data['article'] = $article;
@@ -118,7 +118,7 @@ class ArticlesController extends Controller
                 }else{
                     $button .= '~';
                 }
-            
+
                 $button .= '</div>';
                 return $button;
             })
@@ -135,12 +135,12 @@ class ArticlesController extends Controller
             ->rawColumns(['action','checkbox','status','title','privatemode'])
             ->addIndexColumn()
             ->make(true);
-    
-            
+
+
         }
 
         return view('admin.article.index')-> with($data)->with('i', (request()->input('page', 1) - 1) * 5);
-       
+
     }
 
     /**
@@ -180,7 +180,7 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
         $this->authorize('Article Create');
-        
+
         $this->validate($request, [
             'title' => 'required|string|max:120',
             'category' => 'required',
@@ -198,7 +198,8 @@ class ArticlesController extends Controller
         $article->tags = $request->input('tags');
         $article->subcategory = $request->input('subscategory');
         $article->privatemode = $request->input('privatemode') ? 1 : 0;
-        
+        $article->onlywithpermission = $request->input('onlywithpermission') ? 1 : 0;
+
         $file = $request->featureimage;
         $fileinput = public_path('uploads/featureimage/' . $file);
         $article->featureimage = $file;
@@ -223,7 +224,7 @@ class ArticlesController extends Controller
 
         foreach ($request->input('article', []) as $file) {
             $article->addMedia(public_path('uploads/article/' . $file))->toMediaCollection('article');
-        }     
+        }
 
         return response()->json(['success' => trans('langconvert.functions.articlecreate')], 200);
     }
@@ -232,17 +233,17 @@ class ArticlesController extends Controller
 
         if($request->file('file')){
             $path = public_path('uploads/featureimage');
-    
+
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-    
+
             $file = $request->file('file');
-    
+
             $name = uniqid() . '_' . trim($file->getClientOriginalName());
-    
+
             $file->move($path, $name);
-    
+
             return response()->json([
                 'name'          => $name,
                 'original_name' => $file->getClientOriginalName(),
@@ -253,17 +254,17 @@ class ArticlesController extends Controller
     {
         if($request->file('file')){
             $path = public_path('uploads/article');
-    
+
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-    
+
             $file = $request->file('file');
-    
+
             $name = uniqid() . '_' . trim($file->getClientOriginalName());
-    
+
             $file->move($path, $name);
-    
+
             return response()->json([
                 'name'          => $name,
                 'original_name' => $file->getClientOriginalName(),
@@ -301,7 +302,7 @@ class ArticlesController extends Controller
             $category1 = Subcategorychild::where('category_id',$article->category_id)->get();
             $totalrow1 = $category1->count();
             $ticket1 = DB::table('articles')->where('id', $id)->first();
-            if($totalrow1 > 0){ 
+            if($totalrow1 > 0){
                 foreach($category1 as $categories){
                     foreach ($categories->subcatlists()->get() as $subcategorylist) {
                        $subcategory .= '
@@ -351,11 +352,11 @@ class ArticlesController extends Controller
             'category' => 'required',
             'message' => 'required',
             'status' => 'required',
-            
+
         ]);
 
         $article = Article::findOrFail($id);
-        
+
         $article->title = $request->input('title');
         $article->category_id = $request->input('category');
         $article->message = $request->input('message');
@@ -363,7 +364,8 @@ class ArticlesController extends Controller
         $article->tags = $request->input('tags');
         $article->subcategory = $request->input('subscategory');
         $article->privatemode = $request->input('privatemode') ? 1 : 0;
-        
+        $article->onlywithpermission = $request->input('onlywithpermission') ? 1 : 0;
+
         $articlefind = Article::where('articleslug', Str::slug($request->input('title'), '-'))->first();
 
         if(!$articlefind){
@@ -379,7 +381,7 @@ class ArticlesController extends Controller
                 $article->articleslug = Str::slug($request->input('title'), '-').'-'. $article->id;
             }
         }
-        
+
         if($request->featureimage){
             $file = $request->featureimage;
             $destinations = 'public/uploads/featureimage/'.$article->featureimage;
@@ -389,10 +391,10 @@ class ArticlesController extends Controller
             $fileinput = public_path('uploads/featureimage/' . $file);
             $article->featureimage = $file;
         }
-        
+
         $article->update();
         $media = $article->getMedia('article');
-         
+
         if($request->input('article', [])){
             if (count($media) > 0) {
                 foreach ($media as $media) {
@@ -401,7 +403,7 @@ class ArticlesController extends Controller
                     }
                 }
             }
-            
+
             foreach ($request->input('article', []) as $file) {
                 $article->addMedia(public_path('uploads/article/' . $file))->toMediaCollection('article');
             }
@@ -421,11 +423,11 @@ class ArticlesController extends Controller
         $this->authorize('Article Delete');
         $article = Article::findOrFail($id);
         $media = $article->getMedia('article');
-        
+
         foreach ($media as $media) {
-            
+
             $media->delete();
-            
+
         }
         $article->delete();
         return response()->json(['error'=>'Deleted Successfully']);
@@ -433,20 +435,20 @@ class ArticlesController extends Controller
 
     public function articlemassdestroy(Request $request){
         $student_id_array = $request->input('id');
-    
+
         $articles = Article::whereIn('id', $student_id_array)->get();
-    
+
         foreach($articles as $article){
-         
+
             foreach ($article->getMedia('article') as $media) {
-              
+
                     $media->delete();
-                
+
             }
             $article->delete();
         }
         return response()->json(['error'=> trans('langconvert.functions.articledelete')]);
-        
+
     }
 
     public function article(Request $request)
@@ -460,13 +462,13 @@ class ArticlesController extends Controller
             'articletitle' => $request->articletitle,
             'articlesub' => $request->articlesub,
             'articlecheck'  => $request->has('articlecheck') ? 'on' : 'off',
-        
+
         ];
-    
+
         $callaction = Apptitle::updateOrCreate(
         ['id' => $calID], $calldetails);
-    
-    
+
+
         return redirect()->back()->with('success', trans('langconvert.functions.updatecommon'));
     }
 
@@ -476,18 +478,18 @@ class ArticlesController extends Controller
         $calID = Article::find($id);
         $calID->status = $request->status;
         $calID->save();
-          
+
         return response()->json(['code'=>200, 'success'=>trans('langconvert.functions.updatecommon')], 200);
 
     }
 
     public function privatestatus(Request $request, $id)
-    {   
+    {
         $calID = Article::find($id);
         $calID->privatemode = $request->privatemode;
 
         $calID->save();
-          
+
         return response()->json(['code'=>200, 'success'=>trans('langconvert.functions.updatecommon')], 200);
 
     }
@@ -499,7 +501,7 @@ class ArticlesController extends Controller
         $calID = Article::find($id);
         $calID ->featureimage = null;
         $calID ->save();
-          
+
 
         return response()->json(['code'=>200, 'success'=> trans('langconvert.functions.updatecommon')], 200);
 

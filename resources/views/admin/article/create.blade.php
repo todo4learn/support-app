@@ -142,6 +142,13 @@
 												</label>
 											</div>
 
+											<div class="form-group">
+												<label class="custom-control form-checkbox">
+													<input type="checkbox" class="custom-control-input" name="onlywithpermission" id="onlywithpermission" >
+													<span class="custom-control-label">{{trans('langconvert.newwordslang.articlevisibleonlywithpermission')}}</span>
+												</label>
+											</div>
+
 										</div>
 										<div class="card-footer clearfix">
 											<div class="form-group float-end mb-0 btn-list">

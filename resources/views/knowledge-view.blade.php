@@ -172,8 +172,8 @@
 													</div>
 													<div class="card-body pt-0">
 
-														@if($articles->privatemode == 1)
-															@if(Auth::guard('customer')->check() && Auth::guard('customer')->user())
+														@if(($articles->privatemode == 1 && $articles->onlywithpermission == 1) || ($articles->privatemode == 0 && $articles->onlywithpermission == 1))
+															@if(Auth::guard('customer')->check() && Auth::guard('customer')->user() && Auth::guard('customer')->user()->can('View hidden Article'))
 															<div class="mb-4 description mt-3">
 																@if($articles->featureimage != null)
 
@@ -207,10 +207,49 @@
 															<div class="alert alert-light-warning mt-3">
 																<p class="privatearticle">
 																<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-																You must be logged in and have valid account to access this content.
+																You must be logged in and have valid account and have the right permission to access this content.
 																</p>
 															</div>
 															@endif
+														@elseif ($articles->privatemode == 1 && $articles->onlywithpermission == 0)
+                                                            @if(Auth::guard('customer')->check() && Auth::guard('customer')->user())
+                                                            <div class="mb-4 description mt-3">
+                                                                @if($articles->featureimage != null)
+
+                                                                <img src="{{asset('uploads/featureimage/'.$articles->featureimage)}}" alt="">
+                                                                @endif
+                                                                <div class="mt-3">{!!ucfirst($articles->message) !!}</div>
+
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <div class="row">
+                                                                            @foreach ($articles->getMedia('article') as $article)
+
+                                                                            <div class="col-xl-3 col-md-4 col-sm-12">
+                                                                                <div class="tags  gallery me-3">
+                                                                                <a href="{{url($article->getFullUrl())}}">
+                                                                                    <span class="tag tag-attachments rounded-pill  tag-outline-primary mt-0">
+                                                                                        <span class="me-2"><i class="mdi mdi-file-image tx-24"></i></span>
+                                                                                        {{Str::limit($article->file_name, 15, $end='.......')}}
+                                                                                    </span>
+                                                                                </a>
+                                                                            </div>
+
+                                                                            </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @else
+
+                                                            <div class="alert alert-light-warning mt-3">
+                                                                <p class="privatearticle">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                                                You must be logged in and have valid account to access this content.
+                                                                </p>
+                                                            </div>
+                                                            @endif
 														@else
 
 															<div class="mb-4 description mt-3">

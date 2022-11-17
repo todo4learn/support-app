@@ -641,6 +641,7 @@ return[
             'appcode' => 'Code d’Achat App',
             'faqprivatemode' => 'Mode de Confidentialité',
             'articleprivatemode' => 'Mode de Confidentialité',
+            'articlevisibleonlywithpermission' => 'Cet article sera visible uniquement avec une permission',
 
 
             // new adding

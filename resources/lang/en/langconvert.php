@@ -644,6 +644,7 @@ return[
             'appcode' => 'App Purchase Code',
             'faqprivatemode' => 'Privacy Mode',
             'articleprivatemode' => 'Privacy Mode',
+            'articlevisibleonlywithpermission' => 'This article will be only visible with permission',
 
             // new adding
             'categoryassign' => 'Category Assign',

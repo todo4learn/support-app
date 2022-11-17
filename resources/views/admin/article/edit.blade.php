@@ -5,7 +5,7 @@
 		<!-- INTERNAl Summernote css -->
 		<link rel="stylesheet" href="{{asset('assets/plugins/summernote/summernote.css')}}?v=<?php echo time(); ?>">
 
-		<!-- INTERNAl dropzone css -->		
+		<!-- INTERNAl dropzone css -->
 		<link href="{{asset('assets/plugins/dropzone/dropzone.css')}}?v=<?php echo time(); ?>" rel="stylesheet" />
 
 		<!-- INTERNAl bootstraptag css -->
@@ -113,7 +113,7 @@
 												<label class="form-label">{{trans('langconvert.admindashboard.tags')}}</label>
 												<input type="text" id="tags" class="form-control" name="tags" value="{{$article->tags}}" data-role="tagsinput" />
 											</div>
-											
+
 											<div class="form-group">
 												<div class="custom-controls-stacked d-md-flex">
 													<label class="form-label mt-1 me-5">{{trans('langconvert.admindashboard.status')}} :</label>
@@ -134,6 +134,14 @@
 													<span class="custom-control-label">{{trans('langconvert.newwordslang.articleprivatemode')}}</span>
 												</label>
 											</div>
+
+											<div class="form-group">
+												<label class="custom-control form-checkbox">
+													<input type="checkbox" class="custom-control-input" name="onlywithpermission" id="onlywithpermission" {{$article->onlywithpermission == 1 ? 'checked' : ''}}>
+													<span class="custom-control-label">{{trans('langconvert.newwordslang.articlevisibleonlywithpermission')}}</span>
+												</label>
+											</div>
+
 											<div class="form-group">
 												<label class="form-label">{{trans('langconvert.admindashboard.uploadfile')}}:</label>
 												<div class="needsclick dropzone" id="document-dropzone"></div>
@@ -343,7 +351,7 @@
 				});
 			});
 
-			// when category change its get the subcat list 
+			// when category change its get the subcat list
 			$('#category').on('change',function(e) {
 				e.preventDefault();
 				var cat_id = e.target.value;
@@ -357,7 +365,7 @@
 						},
 					success:function (data) {
 						if(data.subcategoriess){
-							
+
 							$('#selectssSubCategory').hide()
 							$('#subscategory').html(data.subcategoriess)
 							$('.subcategoryselect').select2();
@@ -381,11 +389,11 @@
 							$('#selectssSubCategory').show()
 							$('#subscategory').html(data);
 						@endif
-						
+
 					}
 				})
 			});
-			
+
 		</script>
 
 		@endsection
