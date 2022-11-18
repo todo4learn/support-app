@@ -103,7 +103,7 @@
 													</div>
 												</div>
 
-                                                <div class="col-sm-6 col-md-6">
+                                                <div class="col-sm-12 col-md-12">
                                                     <div class="form-group">
                                                         <label class="custom-control form-checkbox">
                                                             <input type="checkbox" class="custom-control-input" name="canviewhiddenarticle" id="canviewhiddenarticle" >
