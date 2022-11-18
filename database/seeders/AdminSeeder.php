@@ -189,6 +189,7 @@ class AdminSeeder extends Seeder
         Permission::create(['name' => 'Article Edit' , 'guard_name' => 'web',]);
         Permission::create(['name' => 'Article Delete'  , 'guard_name' => 'web',]);
         Permission::create(['name' => 'View hidden Article'  , 'guard_name' => 'web',]);
+        Permission::create(['name' => 'View hidden Article'  , 'guard_name' => 'customer',]);
         // Category Permission
         Permission::create(['name' => 'Category Access', 'guard_name' => 'web',]);
         Permission::create(['name' => 'Category Create' , 'guard_name' => 'web',]);

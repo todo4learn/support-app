@@ -685,6 +685,8 @@ return[
             'ticketnotetitle' => 'Je n ai pas encore de notes ',
             'ticketnotedes' => 'Ajoutez vos notes ici',
 
+            'canviewhiddenarticle' => 'Peut voir les articles cachés',
+
         ],
 
         'placeholders' => [

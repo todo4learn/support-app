@@ -98,6 +98,15 @@
 														</select>
 													</div>
 												</div>
+
+                                                <div class="col-sm-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="custom-control form-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" name="canviewhiddenarticle" id="canviewhiddenarticle" {{$user->hasPermissionTo('View hidden Article') ? 'checked' : ''}}>
+                                                            <span class="custom-control-label">{{trans('langconvert.newwordslang.canviewhiddenarticle')}}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
 											</div>
 										</div>
 										<div class="card-footer">
@@ -109,11 +118,11 @@
 								</div>
 							</div>
 							<!-- End Customer Edit -->
-			
+
 							@endsection
 
 		@section('scripts')
-		
+
 		<!-- INTERNAL select2 js-->
 		<script src="{{asset('assets/js/select2.js')}}"></script>
 		@endsection

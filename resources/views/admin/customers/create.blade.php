@@ -17,7 +17,7 @@
 								</div>
 							</div>
 							<!--End Page header-->
-							
+
 							<!-- Create Customers -->
 							<div class="col-xl-12 col-lg-12 col-md-12">
 								<div class="card ">
@@ -68,7 +68,7 @@
 														@enderror
 
 													</div>
-												</div>	
+												</div>
 												<div class="col-sm-6 col-md-6">
 													<div class="form-group">
 														<label class="form-label">{{trans('langconvert.admindashboard.password')}} <small class="text-muted"><i>{{trans('langconvert.admindashboard.copythepassword')}}</i></small></label>
@@ -102,6 +102,15 @@
 
 													</div>
 												</div>
+
+                                                <div class="col-sm-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="custom-control form-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" name="canviewhiddenarticle" id="canviewhiddenarticle" >
+                                                            <span class="custom-control-label">{{trans('langconvert.newwordslang.canviewhiddenarticle')}}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
 											</div>
 										</div>
 										<div class="col-md-12 card-footer">
@@ -110,7 +119,7 @@
 											</div>
 										</div>
 									</form>
-									
+
 								</div>
 							</div>
 							<!-- Create Customers -->

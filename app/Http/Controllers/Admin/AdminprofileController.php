@@ -61,19 +61,19 @@ class AdminprofileController extends Controller
 
             $avgr = ((5*$avgrating5) + (4*$avgrating4) + (3*$avgrating3) + (2*$avgrating2) + (1*$avgrating1));
             $avggr = ($avgrating1 + $avgrating2 + $avgrating3 + $avgrating4 + $avgrating5);
-            
+
             if($avggr == 0){
                 $avggr = 1;
                 $avg = $avgr/$avggr;
             }else{
                 $avg = $avgr/$avggr;
             }
-            
+
         }
 
         return view('admin.profile.adminprofile' ,compact('avg'))-> with($data);
 
-       
+
     }
 
 
@@ -97,7 +97,7 @@ class AdminprofileController extends Controller
 
         return view('admin.profile.adminprofileupdate')-> with($data);
 
-       
+
     }
 
     public function profilesetup(Request $request){
@@ -132,7 +132,7 @@ class AdminprofileController extends Controller
             $rules = array(
                 'image' => 'mimes:jpeg,jpg,png|required|max:5120' // max 10000kb
               );
-          
+
               // Now pass the input and rules into the validator
               $validator = Validator::make($fileArray, $rules);
 
@@ -140,7 +140,7 @@ class AdminprofileController extends Controller
                 {
                     return redirect()->back()->with('error', trans('langconvert.functions.imagevalidatefails'));
                 }else{
-                   
+
                         $destination = 'public/uploads/profile';
                         $image_name = time() . '.' . $file->getClientOriginalExtension();
                         $resize_image = Image::make($file->getRealPath());
@@ -156,12 +156,12 @@ class AdminprofileController extends Controller
                         $file = $request->file('image');
                         $user->update(['image'=>$image_name]);
                     }
-            
-            
+
+
         }
-       
-       
-        $user->update(); 
+
+
+        $user->update();
         return redirect('admin/profile')->with('success', trans('langconvert.functions.profileupdate'));
 
     }
@@ -174,7 +174,7 @@ class AdminprofileController extends Controller
         $user->update();
 
         return response()->json(['success'=> trans('langconvert.functions.profileimageremove')]);
-        
+
     }
 
 
@@ -204,7 +204,7 @@ class AdminprofileController extends Controller
             ->addColumn('action', function($data){
                 $button = '<div class = "d-flex">';
                 if(Auth::user()->can('Customers Edit')){
-        
+
                     $button .= '<a href="'.url('/admin/customer/' . $data->id).'" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="feather feather-edit text-primary"></i></a>';
                 }else{
                     $button .= '~';
@@ -214,7 +214,7 @@ class AdminprofileController extends Controller
                 }else{
                     $button .= '~';
                 }
-                
+
                 $button .= '</div>';
                 return $button;
               })
@@ -232,8 +232,8 @@ class AdminprofileController extends Controller
                 else{
                     return '<span class="badge badge-danger">Inactive</span>';
                 }
-                
-            
+
+
             })
             ->addColumn('verified', function($data){
                 if($data->verified == 1){
@@ -242,7 +242,7 @@ class AdminprofileController extends Controller
                 else{
                     return 'Unverified';
                 }
-            
+
             })
             ->addColumn('created_at', function($data){
                 return '<span class="badge badge-success-light">'.$data->created_at->format(setting('date_format')).'</span>';
@@ -258,8 +258,8 @@ class AdminprofileController extends Controller
                     return '<div><a href="#" class="h5">'.Str::limit($data->username, '40').'</a></div>
                     <small class="fs-12 text-muted"> <span class="font-weight-normal1">'.Str::limit($data->email, '40').'</span></small>';
                 }
-                
-             
+
+
             })
             ->addIndexColumn()
             ->rawColumns(['action','checkbox','status','created_at','username'])
@@ -268,7 +268,7 @@ class AdminprofileController extends Controller
 
         return view('admin.customers.index')->with($data)->with('i', (request()->input('page', 1) - 1) * 5);
 
-       
+
     }
     public function customerscreate()
     {
@@ -296,7 +296,7 @@ class AdminprofileController extends Controller
 
         return view('admin.customers.create')->with($data)->with('i', (request()->input('page', 1) - 1) * 5);
 
-       
+
     }
 
     public function customersstore(Request $request){
@@ -313,7 +313,7 @@ class AdminprofileController extends Controller
                 'phone' => 'numeric',
             ]);
         }
-        
+
         $customer = Customer::create([
             'firstname' => Str::ucfirst($request->input('firstname')),
             'lastname' => Str::ucfirst($request->input('lastname')),
@@ -324,7 +324,7 @@ class AdminprofileController extends Controller
             'image' => null,
             'verified' => '1',
             'userType' => 'Customer',
-            
+
         ]);
 
         $customers = Customer::find($customer->id);
@@ -338,11 +338,15 @@ class AdminprofileController extends Controller
             'url' => url('/'),
         ];
 
+        if ($request->input('canviewhiddenarticle')) {
+            $customer->givePermissionTo('View hidden Article');
+        }
+
         try{
 
             Mail::to($customer->email)
             ->send( new mailmailablesend( 'customer_send_registration_details', $customerData ) );
-        
+
         }catch(\Exception $e){
             return redirect('admin/customer')->with('success', trans('langconvert.functions.customercreate'));
         }
@@ -402,8 +406,14 @@ class AdminprofileController extends Controller
         $user->update();
         $request->session()->forget('email',$user->email);
 
+        if ($request->input('canviewhiddenarticle')) {
+            $user->givePermissionTo('View hidden Article');
+        } else {
+            $user->revokePermissionTo('View hidden Article');
+        }
+
         return redirect('/admin/customer')->with('success', trans('langconvert.functions.customerupdate'));
-      
+
     }
 
     public function adminLogin($id)
@@ -424,7 +434,7 @@ class AdminprofileController extends Controller
             foreach ($ticket as $tickets) {
                 foreach ($tickets->getMedia('ticket') as $media) {
                     $media->delete();
-                }  
+                }
                 foreach($tickets->comments as $comment){
                     foreach($comment->getMedia('comments') as $media){
                         $media->delete();
@@ -443,11 +453,11 @@ class AdminprofileController extends Controller
 
     public function customermassdestroy(Request $request){
         $student_id_array = $request->input('id');
-    
+
         $customers = Customer::whereIn('id', $student_id_array)->get();
-    
+
         foreach($customers as $customer){
-         
+
             foreach ($customer->tickets()->get() as $tickets) {
                 foreach ($tickets->getMedia('ticket') as $media) {
                     $media->delete();
@@ -457,15 +467,15 @@ class AdminprofileController extends Controller
                         $media->delete();
                     }
                     $comment->delete();
-                } 
+                }
                 $tickets->delete();
-            } 
+            }
             $customer->custsetting()->delete();
             $customer->customercustomsetting()->delete();
             $customer->delete();
         }
         return response()->json(['error'=> trans('langconvert.functions.customerdelete')]);
-        
+
     }
 
     public function usersetting(Request $request)

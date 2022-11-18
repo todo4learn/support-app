@@ -258,4 +258,9 @@ return [
 
     ],
 
+
+    // Custom settings
+
+    'sig_api_url' => 'https://sig-api.ageroute.net/api/'
+
 ];
