@@ -687,6 +687,7 @@ return[
             'ticketnotedes' => 'Add your notes here',
 
             'canviewhiddenarticle' => 'Can view hidden articles',
+            'cannedmessage' => 'Canned Messages',
 
         ],
 
