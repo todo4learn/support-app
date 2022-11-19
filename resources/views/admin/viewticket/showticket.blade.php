@@ -40,7 +40,7 @@
 													<div class="">
 														<strong>{{trans('Puchase Code')}} :</strong>
 														@if(Auth::check() && Auth::id() == '1')
-														
+
 														<span class="">{{$ticket->purchasecode}}</span>
 														@else
 														@if(setting('purchasecode_on') == 'on')
@@ -61,11 +61,11 @@
 														@else
 														@endif
 
-													</div>	
+													</div>
 												</div>
 											</div>
 											<!-- End Purchase Code Details -->
-											
+
 											@endif
 
 											<div class="card">
@@ -76,46 +76,46 @@
 														</div>
 														<div class="card-options float-sm-end ticket-status">
 															@if($ticket->status == "New")
-	
+
 															<span class="badge badge-success">{{ $ticket->status }}</span>
 															@elseif($ticket->status == "Re-Open")
-	
+
 															<span class="badge badge-teal">{{ $ticket->status }}</span>
 															@elseif($ticket->status == "Inprogress")
-	
+
 															<span class="badge badge-info">{{ $ticket->status }}</span>
 															@elseif($ticket->status == "On-Hold")
-	
+
 															<span class="badge badge-warning">{{ $ticket->status }}</span>
 															@else
-	
+
 															<span class="badge badge-danger">{{ $ticket->status }}</span>
 															@endif
-	
+
 														</div>
 													</div>
 													<small class="fs-13"><i class="feather feather-clock text-muted me-1"></i>{{trans('langconvert.admindashboard.lastupdatedon')}} <span class="text-muted">{{$ticket->updated_at->diffForHumans()}}</span></small>
 												</div>
-												<div class="card-body pt-2 readmores px-6 mx-1"> 
+												<div class="card-body pt-2 readmores px-6 mx-1">
 													<div>
 														<span>{!! $ticket->message !!}</span>
-	
+
 														<div class="row galleryopen">
 															@foreach ($ticket->getMedia('ticket') as $ticketss)
-	
+
 															<div class="file-image-1  removespruko{{$ticketss->id}}" id="imageremove{{$ticketss->id}}">
 																<div class="product-image">
 																	<a href="{{$ticketss->getFullUrl()}}" class="imageopen">
 																		<img src="{{$ticketss->getFullUrl()}}" class="br-5" alt="{{$ticketss->file_name}}">
 																	</a>
-																	
+
 																</div>
 																<span class="file-name-1">
 																	{{Str::limit($ticketss->file_name, 10, $end='.......')}}
 																</span>
 															</div>
 															@endforeach
-	
+
 														</div>
 													</div>
 
@@ -127,7 +127,7 @@
 											<div class="card">
 												<div class="card-header border-0">
 													<h4 class="card-title">{{trans('langconvert.admindashboard.replyticket')}}</h4>
-													
+
 												</div>
 												<form method="POST" action="{{url('admin/ticket/'. $ticket->ticket_id)}}" enctype="multipart/form-data">
 													@csrf
@@ -137,15 +137,16 @@
 													<div class="card-body status">
 														<div class="col-md-7 col-sm-12 can_msg ps-0 ps-lg-1">
 															<div class="d-flex flex-wrap align-items-center">
-																<label class="form-label me-2">{{trans('uhelpupdate::langconvert.newwordslang.cannedmessage')}}</label>
+																{{-- <label class="form-label me-2">{{trans('uhelpupdate::langconvert.newwordslang.cannedmessage')}}</label> --}}
+																<label class="form-label me-2">{{trans('langconvert.newwordslang.cannedmessage')}}</label>
 																<div class="flex-1 mb-2 mb-lg-0">
 																	<select name="cannedmessage" id="cannedmessagess" class="cannedmessage form-control mw"  data-placeholder="Select Canned Messages">
 																		<option value="" label="Select Canned Messages"></option>
 																		@foreach ($cannedmessages as $cannedmessage)
-		
+
 																			<option value="{{$cannedmessage->messages}}">{{$cannedmessage->title}}</option>
 																		@endforeach
-		
+
 																	</select>
 																</div>
 															</div>
@@ -166,7 +167,7 @@
 															</div>
 															<small class="text-muted"><i>{{trans('langconvert.admindashboard.filesizenotbe')}} {{setting('FILE_UPLOAD_MAX')}}{{trans('langconvert.admindashboard.mb')}}</i></small>
 														</div>
-														
+
 														<div class="custom-controls-stacked d-md-flex" id="text">
 															<label class="form-label mt-1 me-5">{{trans('langconvert.admindashboard.status')}}</label>
 															<label class="custom-control form-radio success me-4">
@@ -198,7 +199,7 @@
 															</label>
 														</div>
 													</div>
-													
+
 													<div class="card-footer">
 														<div class="form-group float-end">
 															<input type="submit" class="btn btn-secondary" value="{{trans('langconvert.admindashboard.reply')}}" onclick="this.disabled=true;this.form.submit();">
@@ -221,13 +222,13 @@
 													{{ csrf_field() }}
 													<div id="spruko_loaddata">
 														@include('admin.viewticket.showticketdata')
-														
+
 													</div>
 												</div>
 											</div>
 											@endif
 											{{-- End Comments Display --}}
-											
+
 										</div>
 
 										<div class="col-xl-3 col-lg-6 col-md-12">
@@ -239,7 +240,7 @@
 													<div class="table-responsive tr-lastchild">
 														<table class="table mb-0 table-information">
 															<tbody>
-																
+
 																<tr>
 																	<td>
 																		<span class="w-50">{{trans('langconvert.admindashboard.ticketid')}}</span>
@@ -256,12 +257,12 @@
 																	<td>:</td>
 																	<td>
 																		@if ($ticket->category_id != null)
-																		
+
 																		<span class="font-weight-semibold">{{ $ticket->category->name}}</span>
 																		@if ($ticket->status != 'Closed')
 
 																		<a href="javascript:void(0)" data-id="{{$ticket->ticket_id}}" class="p-1 sprukocategory border border-primary br-7 text-white bg-primary ms-2"> <i class="feather feather-edit-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Change Category"></i></a>
-																		
+
 																		@endif
 																		@else
 
@@ -270,7 +271,7 @@
 
 																	</td>
 																</tr>
-																
+
 																@if ($ticket->subcategory != null)
 																<tr>
 																	<td>
@@ -279,11 +280,11 @@
 																	<td>:</td>
 																	<td>
 																		<span class="font-weight-semibold">{{$ticket->subcategoriess->subcategoryname}}</span>
-																		
+
 																	</td>
 																</tr>
 																@endif
-																	
+
 																@if ($ticket->project != null)
 
 																<tr>
@@ -306,25 +307,25 @@
 																		@if($ticket->priority == "Low")
 
 																			<span class="badge badge-success-light" >{{ $ticket->priority }}</span>
-																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2"> 
+																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2">
 																				<i class="feather feather-edit-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Change priority" aria-label="Add priority"></i>
 																			</button>
 																		@elseif($ticket->priority == "High")
 
 																			<span class="badge badge-danger-light">{{ $ticket->priority}}</span>
-																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2"> 
+																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2">
 																				<i class="feather feather-edit-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Change priority" aria-label="Add priority"></i>
 																			</button>
 																		@elseif($ticket->priority == "Critical")
 
 																			<span class="badge badge-danger-dark">{{ $ticket->priority}}</span>
-																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2"> 
+																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2">
 																				<i class="feather feather-edit-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Change priority" aria-label="Add priority"></i>
 																			</button>
 																		@else
 
 																			<span class="badge badge-warning-light">{{ $ticket->priority }}</span>
-																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2"> 
+																			<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2">
 																				<i class="feather feather-edit-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Change priority" aria-label="Add priority"></i>
 																			</button>
 																		@endif
@@ -338,11 +339,11 @@
 																	</td>
 																	<td>:</td>
 																	<td id="priorityid">
-																		<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2"> 
+																		<button  id="priority" class="p-1 border border-primary br-7 text-white bg-primary ms-2">
 																			<i class="feather feather-plus" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Change priority" aria-label="Add priority"></i>
 																		</button>
 
-																		
+
 																	</td>
 																</tr>
 																@endif
@@ -457,7 +458,7 @@
 															@endif
 														@endif
 														@endcan
-														
+
 													@endif
 
 												</div>
@@ -583,7 +584,7 @@
 						@endsection
 
 		@section('scripts')
-		
+
 		<!-- INTERNAL Summernote js  -->
 		<script src="{{asset('assets/plugins/summernote/summernote.js')}}?v=<?php echo time(); ?>"></script>
 
@@ -598,7 +599,7 @@
 		<script src="{{asset('assets/plugins/simplelightbox/light-box.js')}}?v=<?php echo time(); ?>"></script>
 
 		<!-- INTERNAL Sweet-Alert js-->
-		<script src="{{asset('assets/plugins/sweet-alert/sweetalert.min.js')}}?v=<?php echo time(); ?>"></script>	
+		<script src="{{asset('assets/plugins/sweet-alert/sweetalert.min.js')}}?v=<?php echo time(); ?>"></script>
 		<script src="{{asset('assets/js/select2.js')}}?v=<?php echo time(); ?>"></script>
 
 		<!--Showmore Js-->
@@ -698,10 +699,10 @@
 						}
 					});
             }
-	
+
 			@if($ticket->status != "Closed")
-			
-			// onhold ticket status 
+
+			// onhold ticket status
 			let hold = document.getElementById('onhold');
 			let text = document.querySelector('.status');
 			let hold1 = document.querySelectorAll('.hold');
@@ -717,7 +718,7 @@
 				statusDiv();
 				status = true;
 			}
-			
+
 			function statusDiv(){
 				let Div = document.createElement('div')
 				Div.setAttribute('class','d-block pt-4');
@@ -819,8 +820,8 @@
 					});
 
 				});
-		
-				// Assigned Button submit 
+
+				// Assigned Button submit
 				$('body').on('submit', '#assigned_form', function (e) {
 					e.preventDefault();
 					var actionType = $('#btnsave').val();
@@ -850,9 +851,9 @@
 							$('#AssignError').html('');
 							$('#AssignError').html(data.responseJSON.errors.assigned_user_id);
 							$('#btnsave').html('Save Changes');
-							
+
 						}
-					});	
+					});
 				});
 
 				// Remove the assigned from the ticket
@@ -875,7 +876,7 @@
 								success: function (data) {
 								toastr.error(data.error);
 								location.reload();
-								
+
 								},
 								error: function (data) {
 								console.log('Error:', data);
@@ -899,10 +900,10 @@
 							reopenid:reopenid
 						},
 						success:function(data){
-							
+
 							toastr.success(data.success);
 							window.location.reload();
-							
+
 						},
 						error:function(data){
 							toastr.error(data);
@@ -950,7 +951,7 @@
 					$('#pribtnsave').html('Save Changes');
 					location.reload();
 					toastr.success(data.success);
-					
+
 
 					},
 					error: function(data){
@@ -970,7 +971,7 @@
 					$('#CategoryError').html('');
 					$('#addcategory').modal('show');
 
-					
+
 					$.ajax({
 						type: "get",
 						url: SITEURL + "/admin/category/list/" + category_id,
@@ -983,7 +984,7 @@
 							});
 							$('#sprukocategory').html(data.table_data);
 							$('.ticket_id').val(data.ticket.id);
-							
+
 							if(data.ticket.project != null){
 								$('#subcategory')?.empty();
 								$('#selectSubCategory .removecategory')?.remove();
@@ -1008,7 +1009,7 @@
 									dropdownParent: ".sprukosearchcategory",
 								});
 								$('#subcategory').append(data.projectop);
-								
+
 							}
 
 							if(data.ticket.purchasecode != null)
@@ -1045,7 +1046,7 @@
 
 								$('#selectssSubCategory').show()
 								$('#subscategory').html(data.subcategoryt);
-								
+
 							}else{
 								if(!data.subcategoryt){
 									$('#selectssSubCategory').hide();
@@ -1054,7 +1055,7 @@
 									$('#subscategory').html(data.subcategoryt);
 								}
 							}
-							
+
 						},
 						error: function(data){
 
@@ -1065,7 +1066,7 @@
 				});
 
 
-				// when category change its get the subcat list 
+				// when category change its get the subcat list
 				$('body').on('change', '#sprukocategory', function(e) {
 					var cat_id = e.target.value;
 					$('#selectssSubCategory').hide();
@@ -1091,7 +1092,7 @@
 							// Envato access
 							if(data.envatosuccess.length >= 1)
 							{
-								
+
 								$('.sprukoapiblock').attr('disabled', true);
 								$('#envato_id')?.empty();
 								$('#envatopurchase .row')?.remove();
@@ -1120,7 +1121,7 @@
 								divcol9.append(selecthSelectInput);
 								Divrow.append(divcol9);
 								$('.purchasecode').attr('disabled', true);
-								
+
 							}else{
 								$('#envato_id')?.empty();
 								$('#envatopurchase .row')?.remove();
@@ -1131,7 +1132,7 @@
 
 							// projectlist
 							if(data.subcategories.length >= 1){
-							
+
 								$('#subcategory')?.empty();
 								$('#selectSubCategory .removecategory')?.remove();
 								let selectDiv = document.querySelector('#selectSubCategory');
@@ -1188,7 +1189,7 @@
 							$('#pribtnsave').html('Save Changes');
 							toastr.success(data.success);
 							window.location.reload();
-							
+
 
 						},
 						error: function(data){
@@ -1226,7 +1227,7 @@
 								}
 								if(data.valid == 'expried'){
 									@if(setting('ENVATO_EXPIRED_BLOCK') == 'on')
-									
+
 									$('.sprukoapiblock').attr('disabled', true);
 									$('.purchasecode').attr('disabled', true);
 									$('#envato_id').css('border', '1px solid #e13a3a');
@@ -1248,8 +1249,8 @@
 									$('#envato_id').css('border', '1px solid #e13a3a');
 									toastr.error(data.message);
 								}
-								
-							
+
+
 							},
 							error: function (data) {
 
@@ -1324,7 +1325,7 @@
 				});
 			}
 
-			// End Scrolling Js 
+			// End Scrolling Js
 
 			// ReadMore JS
 			let readMore = document.querySelectorAll('.readmores')
@@ -1403,7 +1404,7 @@
 		@endsection
 
 			@section('modal')
-		
+
 	  		<!-- Add note-->
 			<div class="modal fade"  id="addnote" aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -1419,13 +1420,13 @@
 							@csrf
 							@honeypot
 							<div class="modal-body">
-								
+
 								<div class="form-group">
 									<label class="form-label">Note:</label>
 									<textarea class="form-control" rows="4" name="ticketnote" id="note" required></textarea>
 									<span id="noteError" class="text-danger alert-message"></span>
 								</div>
-								
+
 							</div>
 							<div class="modal-footer">
 								<a href="#" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</a>
@@ -1436,7 +1437,7 @@
 				</div>
 			</div>
 			<!-- End  Add note  -->
-	
+
 			<!-- Assigned Tickets-->
 			<div class="modal fade sprukosearch"  id="addassigned" role="dialog" aria-hidden="true" >
 				<div class="modal-dialog" role="document">
@@ -1453,10 +1454,10 @@
 							<input type="hidden" name="assigned_id" id="assigned_id">
 							@csrf
 							<div class="modal-body">
-	
+
 								<div class="custom-controls-stacked d-md-flex" >
 									<select class="form-control select1-show-search filll" data-placeholder="Select Agent" name="assigned_user_id" id="username" >
-	
+
 									</select>
 								</div>
 								<span id="AssignError" class="text-danger"></span>
@@ -1487,7 +1488,7 @@
 							<input type="hidden" name="priority_id" id="priority_id" value="{{$ticket->id}}">
 							@csrf
 							<div class="modal-body">
-	
+
 								<div class="custom-controls-stacked d-md-flex" >
 									<select class="form-control select2_modalpriority" data-placeholder="Select Priority" name="priority_user_id" id="priority" >
 										<option label="Select Priority"></option>
@@ -1495,7 +1496,7 @@
 										<option value="High" {{($ticket->priority == 'High')? 'selected' :'' }}>High</option>
 										<option value="Medium" {{($ticket->priority == 'Medium')? 'selected' :'' }}>Medium</option>
 										<option value="Low" {{($ticket->priority == 'Low')? 'selected' :'' }}>Low</option>
-									</select>	
+									</select>
 								</div>
 								<span id="PriorityError" class="text-danger"></span>
 							</div>

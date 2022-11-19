@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "aws/aws-sdk-php": "^3.246",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "google/recaptcha": "^1.2",
@@ -15,6 +16,7 @@
         "laravel/helpers": "^1.4",
         "laravel/installer": "^4.2",
         "laravel/socialite": "^5.2",
+        "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
@@ -31,8 +33,7 @@
         "torann/geoip": "^3.0",
         "webklex/laravel-imap": "^2.4",
         "yajra/laravel-datatables": "^1.5",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "laravel/telescope": "^4.9"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
