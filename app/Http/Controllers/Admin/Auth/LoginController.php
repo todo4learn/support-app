@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use Auth;
+use Illuminate\Http\Request;
 
-use GeoIP;
-use Session;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use App\Models\Apptitle;
-use App\Models\Seosetting;
-use Illuminate\Http\Request;
 use App\Models\SocialAuthSetting;
-use App\Http\Controllers\Controller;
-
-use App\Providers\RouteServiceProvider;
-use Illuminate\Validation\ValidationException;
+use App\Models\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Notifications\SlackTicketAssignedNotification;
+use Illuminate\Validation\ValidationException;
+
+use App\Models\Seosetting;
+use Auth;
+use Session;
+use GeoIP;
 
 class LoginController extends Controller
 {
@@ -145,7 +144,6 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            $user->notify(new SlackTicketAssignedNotification($user));
             return $this->sendLoginResponse($request);
         }
 
