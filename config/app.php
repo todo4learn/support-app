@@ -261,6 +261,8 @@ return [
 
     // Custom settings
 
-    'sig_api_url' => 'https://sig-api.ageroute.net/api/'
+    'sig_api_url' => 'https://sig-api.ageroute.net/api/',
+
+    'slack_webhook_ur' => 'https://hooks.slack.com/services/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'
 
 ];

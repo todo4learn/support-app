@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use Illuminate\Http\Request;
+use Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use GeoIP;
+use Session;
+use App\Models\User;
 
 use App\Models\Apptitle;
-use App\Models\SocialAuthSetting;
-use App\Models\User;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Validation\ValidationException;
-
 use App\Models\Seosetting;
-use Auth;
-use Session;
-use GeoIP;
+use Illuminate\Http\Request;
+use App\Models\SocialAuthSetting;
+use App\Http\Controllers\Controller;
+
+use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Notifications\SlackTicketAssignedNotification;
 
 class LoginController extends Controller
 {
@@ -31,7 +32,7 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-   
+
 
     use ThrottlesLogins,AuthenticatesUsers {
         logout as performLogout;
@@ -65,7 +66,7 @@ class LoginController extends Controller
 
         $seopage = Seosetting::first();
         $data['seopage'] = $seopage;
-        
+
 
         return view('admin.auth.login', ['url'=> 'admin/login'])->with($data);
     }
@@ -93,9 +94,9 @@ class LoginController extends Controller
 
                 return 'admin/';
             }
-           
-       
-        
+
+
+
     }
     protected function validateLogin(Request $request)
     {
@@ -107,7 +108,7 @@ class LoginController extends Controller
 
         // User type from email/username
         $user = User::where($this->username(), $request->{$this->username()})->first();
-        
+
         $this->validate($request, $rules);
     }
     public function userInactiveMessage()
@@ -144,6 +145,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+            $user->notify(new SlackTicketAssignedNotification($user));
             return $this->sendLoginResponse($request);
         }
 
@@ -153,7 +155,7 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
-    }             
+    }
 
     public function userverifiedMessage()
     {
@@ -164,7 +166,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        
+
         $this->performLogout($request);
         return redirect()->route('login');
     }

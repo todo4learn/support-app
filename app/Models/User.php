@@ -47,7 +47,7 @@ class User extends Authenticatable
         'boxed',
     ];
 
-   
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -77,7 +77,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfile::class);
     }
-    
+
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
@@ -115,5 +115,10 @@ class User extends Authenticatable
 
         return $this->hasMany(senduserlist::class, 'touser_id');
     }
-    
+
+    public function routeNotificationForSlack($notification)
+    {
+        return config('app.slack_webhook_url');
+    }
+
 }

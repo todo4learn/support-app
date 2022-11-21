@@ -15,6 +15,7 @@
         "laravel/framework": "^8.12",
         "laravel/helpers": "^1.4",
         "laravel/installer": "^4.2",
+        "laravel/slack-notification-channel": "^2.4",
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
