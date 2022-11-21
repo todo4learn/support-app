@@ -9,7 +9,7 @@
 
 		<!-- INTERNAL Sweet-Alert css -->
 		<link href="{{asset('assets/plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet" />
-		
+
 		@cannot('Ticket Delete')
 
 		<style>
@@ -18,7 +18,7 @@
 			}
 		</style>
 		@endcannot
-	
+
 
 		@endsection
 
@@ -200,7 +200,7 @@
 													<table class="table table-vcenter text-nowrap table-bordered table-striped w-100 ticketdeleterow" id="supportticket-dashe">
 														<thead>
 															<tr >
-																<th >{{trans('langconvert.admindashboard.id')}}</th>	
+																<th >{{trans('langconvert.admindashboard.id')}}</th>
 																<th >{{trans('langconvert.admindashboard.slNo')}}</th>
 																@can('Ticket Delete')
 
@@ -218,20 +218,19 @@
 																@endcannot
 
 																<th >#{{trans('langconvert.admindashboard.id')}}</th>
-																<th >{{trans('langconvert.admindashboard.user')}}</th>
 																<th >{{trans('langconvert.admindashboard.title')}}</th>
 																<th >{{trans('langconvert.admindashboard.priority')}}</th>
+																<th >{{trans('langconvert.admindashboard.assignto')}}</th>
+																<th >{{trans('langconvert.admindashboard.status')}}</th>
+																<th >{{trans('langconvert.admindashboard.user')}}</th>
 																<th >{{trans('langconvert.admindashboard.category')}}</th>
 																<th >{{trans('langconvert.admindashboard.date')}}</th>
-																<th >{{trans('langconvert.admindashboard.status')}}</th>
-																<th >{{trans('langconvert.admindashboard.assignto')}}</th>
-																<th >{{trans('langconvert.admindashboard.lastreply')}}</th> 
+																<th >{{trans('langconvert.admindashboard.lastreply')}}</th>
 																<th >{{trans('langconvert.admindashboard.actions')}}</th>
-																
 															</tr>
 														</thead>
 														<tbody id="refresh">
-															
+
 														</tbody>
 													</table>
 													</div>
@@ -264,7 +263,7 @@
 
 		<!-- INTERNAL Sweet-Alert js-->
 		<script src="{{asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-		
+
         <script type="text/javascript">
 
 			"use strict";
@@ -280,9 +279,9 @@
 				// Auto Refresh Datatable js
 				setInterval(function(){
 					$('#supportticket-dashe').DataTable().ajax.reload();
-					
+
 				},30000);
-					
+
 				@endif
 				@endif
 
@@ -302,7 +301,7 @@
 							text: `<i class="fe fe-trash"></i> {{trans('langconvert.admindashboard.delete')}}`,
 							action: function ( e, dt, node, conf ) {
 								var id = [];
-								
+
 									$('.checkall:checked').each(function(){
 										id.push($(this).val());
 									});
@@ -324,9 +323,9 @@
 											{
 
 											$('#supportticket-dashe').DataTable().ajax.reload();
-											
+
 											toastr.error(data.error);
-												
+
 											},
 											error:function(data){
 
@@ -334,13 +333,13 @@
 										});
 									}
 								});
-								
+
 							}
 							else{
 								toastr.error('{{trans('langconvert.functions.checkboxselect')}}');
 							}
-							
-								
+
+
 							}
 						},
 						{
@@ -349,7 +348,7 @@
 							action: function ( e, dt, node, config ) {
 								$('#supportticket-dashe').DataTable().ajax.reload();
 							}
-						},	
+						},
 					],
 					processing: true,
 					serverSide: true,
@@ -357,18 +356,18 @@
 						url: "{{ url('admin') }}",
 					},
 					columns: [
-						
+
 						{data: 'id', name: 'id', visible: false},
 						{data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
 						{data: 'checkbox', name: 'checkbox',orderable: false,searchable: false},
 						{ data: 'ticket_id', name: 'ticket_id' },
-						{ data: 'cust_id', name: 'cust_id' },
 						{ data: 'subject', name: 'subject' },
 						{ data: 'priority', name: 'priority' },
+						{ data: 'toassignuser_id', name: 'toassignuser_id' },
+						{ data: 'status', name: 'status' },
+						{ data: 'cust_id', name: 'cust_id' },
 						{ data: 'category_id', name: 'category_id' },
 						{ data: 'created_at', name: 'created_at' },
-						{ data: 'status', name: 'status' },
-						{ data: 'toassignuser_id', name: 'toassignuser_id' },
 						{ data: 'last_reply', name: 'last_reply' },
 						{data: 'action', name: 'action', orderable: false},
 					],
@@ -393,7 +392,7 @@
 							}
 						});
 					},
-					
+
 				});
 
 				//Auto reload on/off
@@ -499,7 +498,7 @@
 							$('#AssignError').html(data.responseJSON.errors.assigned_user_id);
 							$('#btnsave').html('Save Changes');
 						}
-					});	
+					});
 				});
 
 				// Remove the assigned from the ticket
@@ -522,7 +521,7 @@
                                 var oTable = $('#supportticket-dashe').dataTable();
 					            oTable.fnDraw(false);
 								toastr.error(data.error);
-								
+
 								},
 								error: function (data) {
 								console.log('Error:', data);
@@ -545,6 +544,6 @@
 		@endsection
 
 		@section('modal')
-		
+
  		@include('admin.modalpopup.assignmodal')
 		@endsection
