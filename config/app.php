@@ -263,6 +263,6 @@ return [
 
     'sig_api_url' => 'https://sig-api.ageroute.net/api/',
 
-    'slack_webhook_url' => 'https://hooks.slack.com/services/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'
+    'slack_webhook_url' => ''
 
 ];
