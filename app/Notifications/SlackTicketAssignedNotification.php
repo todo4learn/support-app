@@ -74,7 +74,6 @@ class SlackTicketAssignedNotification extends Notification
                  ' Cliquez sur ce lien pour voir le ticket : ' . $url
                  ;
       return (new SlackMessage)
-           ->info()
            ->content($content)
       ;
    }
