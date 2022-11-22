@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Ticket\Ticket;
 use App\Models\User;
+use App\Notifications\SlackTicketAssignedNotification;
 use Auth;
 
 class AdminAssignedticketsController extends Controller
@@ -17,26 +18,27 @@ class AdminAssignedticketsController extends Controller
         $this->validate($request, [
             'assigned_user_id' => 'required',
         ]);
-        
+
         $calID = Ticket::find($request->assigned_id);
         $calID->toassignuser_id	 = $request->assigned_user_id;
         $calID->myassignuser_id	 = Auth::id();
         $calID->save();
         $name = $calID->toassignuser->name;
-
+        $user = User::find($calID->toassignuser_id);
+        $user->notify(new SlackTicketAssignedNotification($user, $calID));
         return response()->json(['name'=> $name ,'code'=>200, 'success'=> trans('langconvert.functions.ticketassigned')], 200);
 
     }
 
     public function show(Request $req, $id){
-        
+
         if($req->ajax())
         {
 
             $output = '';
 
             $assign = Ticket::find($id);
-            
+
             $data = User::get();
 
             $total_row = $data->count();
@@ -49,8 +51,8 @@ class AdminAssignedticketsController extends Controller
                     <option  value="'.$row->id.'"' .($row->id == $assign->toassignuser_id ? ' selected' : '').  '>'.$row->name.' ('.(!empty($row->getRoleNames()[0])? $row->getRoleNames()[0] : '').')</option>
 
                     ';
-                }					
-								
+                }
+
             }else{
                 $output .='<option label="Select Agent"></option>';
                 $output = '

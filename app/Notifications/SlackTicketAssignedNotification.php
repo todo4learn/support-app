@@ -21,11 +21,10 @@ class SlackTicketAssignedNotification extends Notification
      *
      * @return void
      */
-    // public function __construct(User $user, $ticket)
-    public function __construct(User $user)
+    public function __construct(User $user, $ticket)
     {
         $this->user = $user;
-        // $this->ticket = $ticket;
+        $this->ticket = $ticket;
     }
 
     /**
@@ -68,11 +67,15 @@ class SlackTicketAssignedNotification extends Notification
 
     public function toSlack($notifiable)
    {
-    //   $content = 'Hello ' . $this->user->firstname .
-    //              ', le ticket n° ' . $this->ticket->ticket_id .
-    //              ' vous a été assigné. Priorité : ' . $this->ticket->priority . '.';
-      $content = 'TEST NOTIFICATION SLACK FROM SUPPORT APP';
+      $url = route('admin.ticketshow', $this->ticket->ticket_id);
+      $content = 'Hello ' . $this->user->firstname .
+                 ', le ticket n° ' . $this->ticket->ticket_id .
+                 ' vous a été assigné. Priorité : ' . ($this->ticket->priority ? $this->ticket->priority : 'NON DEFINIE') . '.' .
+                 ' Cliquez sur ce lien pour voir le ticket : ' . $url
+                 ;
       return (new SlackMessage)
-           ->content($content);
+           ->info()
+           ->content($content)
+      ;
    }
 }
