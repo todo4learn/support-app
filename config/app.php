@@ -263,6 +263,6 @@ return [
 
     'sig_api_url' => 'https://sig-api.ageroute.net/api/',
 
-    'slack_webhook_url' => ''
+    'slack_webhook_url' => env('SLACK_WEBHOOK_URL', '')
 
 ];
