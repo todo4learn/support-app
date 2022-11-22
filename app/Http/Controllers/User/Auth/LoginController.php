@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
-
 use Auth;
 use Hash;
-use App\Models\Apptitle;
-use App\Traits\SocialAuthSettings;
+use GeoIP;
+
+use Response;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\SocialAuthSetting;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Session;
+use App\Models\Apptitle;
 use App\Models\Customer;
 use App\Models\Seosetting;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\CustomerSetting;
+use App\Models\SocialAuthSetting;
+use App\Traits\SocialAuthSettings;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
-use Response;
-use GeoIP;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 
 
@@ -43,7 +45,7 @@ class LoginController extends Controller
 
         $seopage = Seosetting::first();
         $data['seopage'] = $seopage;
-        
+
         return view('user.auth.login')->with($data);
     }
 
@@ -51,61 +53,109 @@ class LoginController extends Controller
     {
         if(setting('CAPTCHATYPE') == 'off'){
             $request->validate([
-                'email'     => 'required|exists:customers|max:255',
+                'email'     => 'required|max:255',
                 'password'  => 'required|min:6|max:255',
-                    
+
             ]);
         }else{
             if(setting('CAPTCHATYPE') == 'manual'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'captcha' => ['required', 'captcha'],
-                        
+
                     ]);
                 }else{
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
-                    ]);  
+                    ]);
                 }
 
             }
             if(setting('CAPTCHATYPE') == 'google'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'g-recaptcha-response'  =>  'required|recaptcha',
-                        
+
                     ]);
                 }else{
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
-                    ]);  
+                    ]);
                 }
             }
         }
 
         $credentials  = $request->only('email', 'password');
         $customerExist = Customer::where(['email' => $request->email, 'status' => 0])->exists();
-        
+
         if ($customerExist) {
             return redirect()->back()->with('error',trans('langconvert.functions.customerinactive'));
         }
-        
+
         $unverifiedCustomer = Customer::where('email', $request->email)->first();
-        
+
         if (!empty($unverifiedCustomer) && $unverifiedCustomer->verified == 0) {
             return redirect()->back()->with('error',trans('langconvert.functions.unverifyuser'));
         }
-        
+
         if (empty($unverifiedCustomer)) {
-            return redirect()->back()->with('error',trans('langconvert.functions.nonregisteruser'));
+
+            // SSO like...
+
+            // Tentative de connexion à SIG AGEROUTE
+
+            $response = Http::withHeaders([
+                'allowed_origins' => '*'
+            ])->post(config('app.zenapi_api_url') . 'login', [
+                'username' => $credentials['email'],
+                'password' => $credentials['password'],
+                'type' => "AGENCY"
+            ]);
+
+            // dd($response->json(), $response->successful(), $response->failed(), $response->clientError(), $response->serverError());
+
+            if ($response->successful()) {
+
+                $data = $response->json()['data'];
+
+                $geolocation = GeoIP::getLocation(request()->getClientIp());
+
+                $clearPassword = $credentials['password'];
+
+                $newCustomer = new Customer();
+                $newCustomer->firstname =  $data['nom'];
+                $newCustomer->lastname =  $data['nom'];
+                $newCustomer->username = $data['nom'];
+                $newCustomer->email =  $data['email'];
+                $newCustomer->password =  Hash::make($clearPassword);
+                $newCustomer->userType = 'Customer';
+                $newCustomer->country = $geolocation->country;
+                $newCustomer->timezone = $geolocation->timezone;
+                $newCustomer->status =  true;
+                $newCustomer->verified =  true;
+                $newCustomer->image = null;
+                $newCustomer->save();
+
+                $customersetting = new CustomerSetting();
+                $customersetting->custs_id = $newCustomer->id;
+                $customersetting->darkmode = setting('DARK_MODE');
+                $customersetting->save();
+
+                $credentials = [
+                    'email' => $newCustomer->email,
+                    'password' => $clearPassword
+                ];
+            } else {
+                return redirect()->back()->with('error',trans('langconvert.functions.nonregisteruser'));
+            }
         }
-        
+
         if (Auth::guard('customer')->attempt($credentials)) {
 
             $cust = Customer::find(Auth::guard('customer')->id());
@@ -116,7 +166,7 @@ class LoginController extends Controller
                 'timezone' => $geolocation->timezone,
                 'country' => $geolocation->country,
             ]);
-            
+
             return redirect()->route('client.dashboard');
         }
 
@@ -131,7 +181,7 @@ class LoginController extends Controller
                 'email'     => 'required|exists:customers|max:255',
                 'password'  => 'required|min:6|max:255',
             ]);
-            
+
         }else{
             if(setting('CAPTCHATYPE') == 'manual'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
@@ -140,13 +190,13 @@ class LoginController extends Controller
                         'password'  => 'required|min:6|max:255',
                         'captcha' => ['required', 'captcha'],
                     ]);
-                   
+
                 }else{
                     $validator = Validator::make($request->all(), [
                         'email'     => 'required|exists:customers|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
-                     
+
                 }
 
             }
@@ -157,29 +207,29 @@ class LoginController extends Controller
                         'password'  => 'required|min:6|max:255',
                         'grecaptcharesponse'  =>  'recaptcha',
                     ]);
-                    
+
                 }else{
                     $validator = Validator::make($request->all(), [
                         'email'     => 'required|exists:customers|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
-                   
+
                 }
             }
         }
 
-        
+
 
         if ($validator->passes()) {
             $user = $request->email;
             $pass  = $request->password;
             $customerExist = Customer::where(['email' => $request->email, 'status' => 0])->exists();
-        
+
         if ($customerExist) {
             return response()->json([ [5] ]);
         }
         $unverifiedCustomer = Customer::where('email', $request->email)->first();
-        
+
         if (!empty($unverifiedCustomer) && $unverifiedCustomer->verified == 0) {
             return response()->json([ [4] ]);
         }
@@ -191,10 +241,10 @@ class LoginController extends Controller
                 'last_login_ip' => $request->getClientIp()
             ]);
             return response()->json([ [1] ]);
-            
+
         }
         else
-         {  
+         {
             return response()->json([ [3] ]);
          }
         }
@@ -210,12 +260,12 @@ class LoginController extends Controller
         $pass  = $request->grecaptcha;
 
         $customerExist = Customer::where(['email' => $request->email, 'status' => 0])->exists();
-        
+
         if ($customerExist) {
             return response()->json([ [5] ]);
         }
         $unverifiedCustomer = Customer::where('email', $request->email)->first();
-        
+
         if (!empty($unverifiedCustomer) && $unverifiedCustomer->verified == 0) {
             return response()->json([ [4] ]);
         }
@@ -230,10 +280,10 @@ class LoginController extends Controller
                 'country' => $geolocation->country,
             ]);
             return response()->json([ [1] ]);
-            
+
         }
         else
-         {  
+         {
             return response()->json([ [3] ]);
          }
     }
@@ -241,17 +291,17 @@ class LoginController extends Controller
 
     public function logout()
     {
-        
+
         request()->session()->flush();
         Auth::guard('customer')->logout();
         if(setting('REGISTER_POPUP') == 'yes'){
-            
+
             return redirect()->route('home')->with('error',trans('langconvert.functions.logoutuser'));
         }else{
             return back()->with('error',trans('langconvert.functions.logoutuser'));
         }
-    
-        
+
+
     }
 
     // Social Login
@@ -259,7 +309,7 @@ class LoginController extends Controller
     public function socialLogin($social)
     {
             $this->setSocailAuthConfigs();
-            
+
             return Socialite::driver($social)->redirect();
     }
    /**
@@ -273,7 +323,7 @@ class LoginController extends Controller
         $this->setSocailAuthConfigs();
         $user = Socialite::driver($social)->user();
         $this->registerOrLogin($user);
-        return redirect('customer/'); 
+        return redirect('customer/');
       }
 
       protected function registerOrLogin($data){
@@ -292,7 +342,7 @@ class LoginController extends Controller
 
         }
         Auth::guard('customer')->login($user);
-        
+
     }
-    
+
 }

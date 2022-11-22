@@ -258,4 +258,6 @@ return [
 
     ],
 
+    'zenapi_api_url' => 'https://api.zenapi.immo/api/'
+
 ];
