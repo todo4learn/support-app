@@ -61,14 +61,14 @@ class LoginController extends Controller
             if(setting('CAPTCHATYPE') == 'manual'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'captcha' => ['required', 'captcha'],
 
                     ]);
                 }else{
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
                 }
@@ -77,14 +77,14 @@ class LoginController extends Controller
             if(setting('CAPTCHATYPE') == 'google'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'g-recaptcha-response'  =>  'required|recaptcha',
 
                     ]);
                 }else{
                     $this->validate($request, [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
                 }
@@ -181,7 +181,7 @@ class LoginController extends Controller
     public function ajaxlogin(Request $request){
         if(setting('CAPTCHATYPE') == 'off'){
             $validator = Validator::make($request->all(), [
-                'email'     => 'required|exists:customers|max:255',
+                'email'     => 'required|max:255',
                 'password'  => 'required|min:6|max:255',
             ]);
 
@@ -189,14 +189,14 @@ class LoginController extends Controller
             if(setting('CAPTCHATYPE') == 'manual'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $validator = Validator::make($request->all(), [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'captcha' => ['required', 'captcha'],
                     ]);
 
                 }else{
                     $validator = Validator::make($request->all(), [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
 
@@ -206,14 +206,14 @@ class LoginController extends Controller
             if(setting('CAPTCHATYPE') == 'google'){
                 if(setting('RECAPTCH_ENABLE_LOGIN')=='yes'){
                     $validator = Validator::make($request->all(), [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                         'grecaptcharesponse'  =>  'recaptcha',
                     ]);
 
                 }else{
                     $validator = Validator::make($request->all(), [
-                        'email'     => 'required|exists:customers|max:255',
+                        'email'     => 'required|max:255',
                         'password'  => 'required|min:6|max:255',
                     ]);
 
