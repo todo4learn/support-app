@@ -46,7 +46,7 @@
 							<!-- Send Test Mail -->
 
 							<!-- Email Setting -->
-							<div class="col-xl-12 col-lg-12 col-md-12">
+							{{-- <div class="col-xl-12 col-lg-12 col-md-12">
 								<div class="card ">
 									<div class="card-header border-0">
 										<h4 class="card-title">{{trans('langconvert.adminmenu.emailsetting')}}</h4>
@@ -87,19 +87,19 @@
 										</div>
 									</form>
 								</div>
-							</div>
+							</div> --}}
 							<!-- Email Setting -->
 							@endsection
-					
+
 		@section('scripts')
-		
+
 			<!--- select2 js -->
 			<script src="{{asset('assets/js/select2.js')}}"></script>
 
 			<script type="text/javascript">
 
 				"use strict";
-	
+
 				(function($)  {
 
 					// submit button function
@@ -168,9 +168,9 @@
 							}
 						});
 
-						
-						
-						
+
+
+
 					});
 
 					// select2 change function
@@ -180,7 +180,7 @@
 							sendmail()
 						}
 						else if(option == 'smtp'){
-							
+
 							smtp()
 
 						}
@@ -192,7 +192,7 @@
 				function sendmail(){
 
 					let selectmail = document.querySelector('#selectmail');
-						
+
 					$('.fromail')?.remove();
 					// mailfromname
 					let divcol12user = document.createElement('div');
@@ -210,7 +210,7 @@
 					let spanerror = document.createElement('span');
 					spanerror.setAttribute('class', 'text-red');
 					spanerror.setAttribute('id', 'fromnameError');
-					
+
 					// mailfromemail
 					let divcol12email = document.createElement('div');
 					divcol12email.setAttribute('class', 'col-sm-12 col-md-12 fromail');
@@ -328,7 +328,7 @@
 					let spanerror6 = document.createElement('span');
 					spanerror6.setAttribute('class', 'text-red');
 					spanerror6.setAttribute('id', 'mailencryptionError');
-				
+
 
 					// mailfromname
 					let div12mailfromname = document.createElement('div');
@@ -426,4 +426,4 @@
 
 
 
-	
+
