@@ -6,6 +6,7 @@
 								<div class="pb-3 px-5 pt-3">
 									<h1 class="mb-2">{{trans('langconvert.menu.login')}}</h1>
 									<p class="text-muted  mb-0">{{trans('langconvert.menu.siginacc')}}</p>
+									<p class="text-muted  mb-0">{{trans('langconvert.menu.help')}}</p>
 								</div>
 								@if($socialAuthSettings->envato_status == 'enable' || $socialAuthSettings->google_status == 'enable'||$socialAuthSettings->facebook_status == 'enable' || $socialAuthSettings->twitter_status == 'enable')
 
@@ -126,7 +127,7 @@
 											onclick="this.disabled=true;this.form.submit();">
 									</div>
 									<div class="text-center mt-3">
-										<a href="{{url('customer/forgotpassword')}}" class="text-primary pb-2">{{trans('langconvert.menu.forgotpass')}}</a>
+										{{-- <a href="{{url('customer/forgotpassword')}}" class="text-primary pb-2">{{trans('langconvert.menu.forgotpass')}}</a> --}}
 										@if(setting('REGISTER_DISABLE') == 'on')
 
 										<p class="text-dark mb-0">{{trans('langconvert.menu.doyoulogin')}}<a class="text-primary ms-1"

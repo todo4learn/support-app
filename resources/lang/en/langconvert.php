@@ -17,6 +17,7 @@ return[
         'accept' => 'Accept',
 
         'siginacc' => 'Sign In to your account',
+        'help' => 'You can use your ZenAPI credentials to access.',
         'rememberme' => 'Remember me',
         'forgotpass' => 'Forgot Password?',
         'enteremail' => 'Enter the email address that is linked to your account.',
