@@ -17,6 +17,7 @@ return[
         'accept' => 'Accepter',
 
         'siginacc' => 'Connectez-vous à votre compte',
+        'help' => 'Vous pouvez utiliser vos accès SIG pour vous connecter',
         'rememberme' => 'Souvenez-vous de moi',
         'forgotpass' => 'Mot de passe oublié?',
         'enteremail' => 'Entrez l’adresse e-mail liée à votre compte.',
