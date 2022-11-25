@@ -52,7 +52,7 @@ class CommentsController extends Controller
             $cust = Customer::find($ticket->cust_id);
             $cust->notify(new TicketCreateNotifications($ticket));
         
-            auth()->user()->notify(new SlackTicketClosedNotification($ticket));
+            auth()->user()->notify(new SlackTicketClosedNotification(auth()->user(), $ticket));
            
             if($ticket->cust->userType == 'Guest'){
                 $ticketData = [

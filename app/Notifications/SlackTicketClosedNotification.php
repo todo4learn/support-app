@@ -13,6 +13,7 @@ class SlackTicketClosedNotification extends Notification
 {
     use Queueable;
 
+    private $user;
     private $ticket;
 
     /**
@@ -20,8 +21,9 @@ class SlackTicketClosedNotification extends Notification
      *
      * @return void
      */
-    public function __construct($ticket)
+    public function __construct(User $user, $ticket)
     {
+        $this->user = $user;
         $this->ticket = $ticket;
     }
 
@@ -67,7 +69,7 @@ class SlackTicketClosedNotification extends Notification
    {
       $url = route('admin.ticketshow', $this->ticket->ticket_id);
       $content = 'Le ticket n° ' . $this->ticket->ticket_id .
-                 ' a été clos par : ' . auth()->user->firstname . '.' .
+                 ' a été clos par : ' . $this->user->firstname . '.' .
                  ' Cliquez sur ce lien pour voir le ticket : ' . $url
                  ;
       return (new SlackMessage)
