@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Auth;
+use Hash;
 
-use App\Models\Ticket\Comment;
-use App\Models\Ticket\Ticket;
-use App\Models\Ticket\Category;
+use Mail;
 use App\Models\User;
 use App\Models\Customer;
-use Auth;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Hash;
-use App\Notifications\TicketCreateNotifications;
+use Illuminate\Http\Request;
+use App\Models\Ticket\Ticket;
 use App\Mail\mailmailablesend;
-use Mail;
+use App\Models\Ticket\Comment;
+use App\Models\Ticket\Category;
+use App\Http\Controllers\Controller;
+use App\Notifications\TicketCreateNotifications;
+use App\Notifications\SlackTicketClosedNotification;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CommentsController extends Controller
 {
@@ -79,6 +80,8 @@ class CommentsController extends Controller
     
                 Mail::to($ticket->cust->email)
                 ->send( new mailmailablesend( 'customer_rating', $ticketData) );
+        
+                $cust->notify(new SlackTicketClosedNotification($ticket));
             
             }catch(\Exception $e){
                 return redirect()->back()->with("success", trans('langconvert.functions.ticketreply'));

@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers\Admin;
 
-use DB;
-use Str;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use Auth;
-use Hash;
-use Mail;
-use DataTables;
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Pages;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\Comment;
+use App\Models\Ticket\Category;
 use App\Mail\AppMailer;
-use App\Models\Apptitle;
 use App\Models\Customer;
-use App\Models\Projects;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Apptitle;
 use App\Models\Footertext;
 use App\Models\Seosetting;
-use App\Models\Ticketnote;
-use App\Models\Groupsusers;
-use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
+use App\Models\Pages;
+use DB;
+use Mail;
 use App\Mail\mailmailablesend;
-use App\Models\Ticket\Comment;
-use App\Models\CustomerSetting;
-use App\Models\Ticket\Category;
-use App\Http\Controllers\Controller;
+use Hash;
+use App\Models\Ticketnote;
+use App\Models\Projects;
 use App\Notifications\TicketCreateNotifications;
+use App\Models\CustomerSetting;
+use DataTables;
+use App\Models\Groupsusers;
+use Str;
 use Modules\Uhelpupdate\Entities\Cannedmessages;
-use App\Notifications\SlackTicketClosedNotification;
 
 class AdminTicketController extends Controller
 {
@@ -337,8 +336,6 @@ class AdminTicketController extends Controller
         $ticketOwner = $ticket->user;
 
         $mailer->sendTicketStatusNotification($ticketOwner, $ticket);
-        
-        $ticketOwner->notify(new SlackTicketClosedNotification($ticket));
 
         return redirect()->back()->with("warning", "The ticket has been closed.");
     }
