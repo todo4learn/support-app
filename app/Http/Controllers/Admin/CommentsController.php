@@ -51,6 +51,8 @@ class CommentsController extends Controller
 
             $cust = Customer::find($ticket->cust_id);
             $cust->notify(new TicketCreateNotifications($ticket));
+        
+            auth()->user()->notify(new SlackTicketClosedNotification($ticket));
            
             if($ticket->cust->userType == 'Guest'){
                 $ticketData = [
@@ -74,8 +76,6 @@ class CommentsController extends Controller
                     'ticket_admin_url' => url('/admin/ticket-view/'.$ticket->ticket_id),
                 ];
             }
-        
-            $cust->notify(new SlackTicketClosedNotification($ticket));
             
     
             try{
