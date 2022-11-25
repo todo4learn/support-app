@@ -74,14 +74,14 @@ class CommentsController extends Controller
                     'ticket_admin_url' => url('/admin/ticket-view/'.$ticket->ticket_id),
                 ];
             }
+        
+            $cust->notify(new SlackTicketClosedNotification($ticket));
             
     
             try{
     
                 Mail::to($ticket->cust->email)
                 ->send( new mailmailablesend( 'customer_rating', $ticketData) );
-        
-                $cust->notify(new SlackTicketClosedNotification($ticket));
             
             }catch(\Exception $e){
                 return redirect()->back()->with("success", trans('langconvert.functions.ticketreply'));
